@@ -1,0 +1,15 @@
+{
+    "parser": "babel-eslint",
+    "extends": ["standard", "standard-react"],
+    "plugins": [
+      "react-hooks"
+    ],
+    "env": {
+      "browser": true
+    },
+    "rules": {
+      "react/prop-types": 0,
+      "react-hooks/rules-of-hooks": "error",
+      "react-hooks/exhaustive-deps": "warn"
+    }
+  }
