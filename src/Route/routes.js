@@ -39,7 +39,7 @@ export const routes = [
   {
     path: '/',
     component: Home,
-    meta: { isPublic: true, name: 'Home' },
+    meta: { isPublic: true, name: 'home' },
     exact: true
   },
   {

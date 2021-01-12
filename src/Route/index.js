@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   BrowserRouter as Router,
   Switch
@@ -7,9 +7,16 @@ import { navigationGuard } from './navigation-guard'
 import { GuardProvider, GuardedRoute } from 'react-router-guards'
 import { routes } from './routes'
 import { Spinner } from 'react-bootstrap'
+import firebase from '../Service/firebaseConfig'
 
 export default function Routes (props) {
-  const [loading] = useState(false)
+  const [loading, setLoading] = useState(false)
+
+  useEffect(() => {
+    setLoading(true)
+    firebase.auth().onAuthStateChanged(user => console.log(user))
+    setLoading(false)
+  }, [])
 
   return (
     loading ? <Spinner />
