@@ -6,7 +6,7 @@ import { SelectUserType } from '../Views/SelectUserType'
 
 export const routes = [
   {
-    path: '/login',
+    path: '/ingresar',
     component: Login,
     exact: true,
     meta: { isPublic: true, name: 'login' }

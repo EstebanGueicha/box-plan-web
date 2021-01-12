@@ -15,7 +15,7 @@ authService.handleAuthFacebook = () => {
   var provider = new firebase.auth.FacebookAuthProvider()
   firebase.auth().languageCode = 'es_ES'
   return firebase.auth().signInWithPopup(provider)
-    .then(data => data.use)
+    .then(data => data)
     .catch(err => { throw err })
 }
 
@@ -29,7 +29,7 @@ authService.handleLogout = () => {
 authService.handleLogin = (email, password) => {
   firebase.auth().languageCode = 'es_ES'
   return firebase.auth().signInWithEmailAndPassword(email, password)
-    .then(data => data)
+    .then(data => data.user)
     .catch(err => { throw err })
 }
 

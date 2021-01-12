@@ -1,13 +1,16 @@
 import React, { useState } from 'react'
 import { Button, Container, Form, Spinner } from 'react-bootstrap'
 import { useForm } from 'react-hook-form'
+import { useDispatch } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import authService from '../../Service/auth'
 import userService from '../../Service/user'
+import { setUserData } from '../../Redux/actions'
 import './Login.scss'
 export const Login = () => {
   const [loading, setLoading] = useState(false)
   const history = useHistory()
+  const dispatch = useDispatch()
   const { register, errors, handleSubmit } = useForm(
     {
       mode: 'onChange',
@@ -31,8 +34,8 @@ export const Login = () => {
       const { displayName, email } = user
       const { accessToken } = credential
       authService.setToken(accessToken)
-      const bd = await userService.loginWithSocialCredentials({ name: displayName, lastName: 'lastName', mail: email })
-      console.log(bd)
+      const userData = await userService.loginWithSocialCredentials({ name: displayName, lastName: 'lastName', mail: email })
+      dispatch(setUserData(userData))
       setLoading(false)
       history.push('/dashboard')
     } catch (err) {
