@@ -1,16 +1,19 @@
-import authService from '../Service/auth'
+import firebase from '../Service/firebaseConfig'
 
 const navigationGuard = async (to, from, next) => {
-  const isAuthenticated = authService.getToken()
-  if ((to.meta.name === 'login' || to.meta.name === 'home') && isAuthenticated) {
-    next.redirect('/dashboard')
-  }
+  firebase.auth().onAuthStateChanged(user => {
+    console.log(user)
 
-  if (to.meta.name !== 'login' && !to.meta.isPublic && !isAuthenticated) {
-    next.redirect('/login')
-  }
+    if ((to.meta.name === 'login' || to.meta.name === 'home') && user) {
+      next.redirect('/dashboard')
+    }
 
-  next()
+    if (to.meta.name !== 'login' && !to.meta.isPublic && !user) {
+      next.redirect('/ingresar')
+    }
+
+    next()
+  })
 }
 
 export { navigationGuard }

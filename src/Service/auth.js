@@ -7,7 +7,7 @@ authService.handleAuthGoogle = () => {
   var provider = new firebase.auth.GoogleAuthProvider()
   firebase.auth().languageCode = 'es_ES'
   return firebase.auth().signInWithPopup(provider)
-    .then(data => data)
+    .then(data => data.user)
     .catch(err => { throw err })
 }
 
@@ -15,7 +15,7 @@ authService.handleAuthFacebook = () => {
   var provider = new firebase.auth.FacebookAuthProvider()
   firebase.auth().languageCode = 'es_ES'
   return firebase.auth().signInWithPopup(provider)
-    .then(data => data)
+    .then(data => data.user)
     .catch(err => { throw err })
 }
 
@@ -30,6 +30,17 @@ authService.handleLogin = (email, password) => {
   firebase.auth().languageCode = 'es_ES'
   return firebase.auth().signInWithEmailAndPassword(email, password)
     .then(data => data.user)
+    .catch(err => { throw err })
+}
+
+authService.signup = (email, password, firstName, lastName) => {
+  firebase.auth().languageCode = 'es_ES'
+  return firebase.auth().createUserWithEmailAndPassword(email, password)
+    .then(data => {
+      const user = firebase.auth().currentUser
+      user.updateProfile({ displayName: firstName + ' ' + lastName })
+      return data
+    })
     .catch(err => { throw err })
 }
 

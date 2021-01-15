@@ -2,13 +2,14 @@ import React from 'react'
 import { Button } from 'react-bootstrap'
 import { useDispatch } from 'react-redux'
 import { useHistory } from 'react-router-dom'
-import { clearUser } from '../../Redux/actions'
-import authService from '../../Service/auth'
+import { clearUser } from '../../../Redux/actions'
+import authService from '../../../Service/auth'
 import './SelectUserType.scss'
 
-export const SelectUserType = () => {
+export const SelectUserType = ({ routes }) => {
   const history = useHistory()
   const dispatch = useDispatch()
+
   const logout = () => {
     authService.handleLogout()
     dispatch(clearUser())
