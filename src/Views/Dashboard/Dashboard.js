@@ -6,10 +6,11 @@ import firebase from '../../Service/firebaseConfig'
 import userService from '../../Service/user'
 import { setUserData } from '../../Redux/actions'
 import './Dashboard.scss'
-import { useDispatch } from 'react-redux'
+import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 
 export const Dashboard = ({ routes }) => {
   const [user, setUser] = useState(null)
+  const { id } = useSelector((state) => state.user, shallowEqual) || ''
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -23,10 +24,10 @@ export const Dashboard = ({ routes }) => {
         console.log(err)
       }
     }
-    if (user) {
+    if (user && !id) {
       getUser()
     }
-  }, [dispatch, user])
+  }, [dispatch, user, id])
 
   return (
     <GuardProvider guards={[navigationGuard]}>

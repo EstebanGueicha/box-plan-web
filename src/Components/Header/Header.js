@@ -1,8 +1,10 @@
 import React from 'react'
-import { Container, Nav, Navbar } from 'react-bootstrap'
+import { Button, Container, Nav, Navbar } from 'react-bootstrap'
+import { useHistory } from 'react-router-dom'
 import './Header.scss'
 
 export const Header = () => {
+  const history = useHistory()
   return (
     <header>
       <Navbar collapseOnSelect expand='lg' bg='transparent' variant='dark' fixed='top'>
@@ -11,7 +13,7 @@ export const Header = () => {
           <Navbar.Toggle aria-controls='responsive-navbar-nav' />
           <Navbar.Collapse id='responsive-navbar-nav'>
             <Nav>
-              <Nav.Link href='#login'>Ingresar</Nav.Link>
+              <Button variant='link' onClick={() => history.push('/ingresar')}>Ingresar</Button>
             </Nav>
           </Navbar.Collapse>
         </Container>

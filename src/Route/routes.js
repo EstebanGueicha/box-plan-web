@@ -24,7 +24,7 @@ export const routes = [
         exact: true
       },
       {
-        path: '/dashboard/:id',
+        path: '/dashboard/:type',
         component: MainDashboard,
         meta: { isPublic: false },
         exact: true

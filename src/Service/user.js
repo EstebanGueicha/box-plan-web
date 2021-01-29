@@ -1,8 +1,8 @@
 import api from './api'
 const userService = {}
 
-userService.loginWithSocialCredentials = (payload) => {
-  return api.post('registerUserWithSocialCredentials/Bpuser', payload)
+userService.loginWithSocialCredentials = (data) => {
+  return api.post('registerUserWithSocialCredentials/Bpuser', data)
     .then(res => res.data)
     .catch(err => { throw err })
 }
