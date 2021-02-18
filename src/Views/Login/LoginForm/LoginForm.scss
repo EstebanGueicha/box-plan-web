@@ -1,0 +1,44 @@
+@import "../../../Theme/Components/colors.scss";
+.loginform-container {
+    width: 30rem;
+    background-color: white;
+    border-radius: 15px;
+    display: flex;
+    margin: auto;
+    padding: 4rem 2rem;
+
+    .form-input {
+        margin-top: 1rem;
+    }
+
+    .socialmedia-login { 
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        margin: 1rem;
+    }
+    .btn.round{
+        background-color: white;
+        border-radius: 50%;
+        margin-right: 1rem;
+        margin-left: 1rem;
+        padding: initial;
+    }
+
+    .signup {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+
+        .signup-text {
+            margin-right: 1rem;
+            margin-bottom: 0;
+        }
+        .btn.btn-link{
+            color: $primary !important;
+            font-size: 1.2rem
+        }
+    }
+}

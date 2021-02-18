@@ -1,10 +1,12 @@
-import React from 'react'
+import React, { useState } from 'react'
+import './Home.scss'
 import { Banner } from './Banner'
 import { Main } from './Main'
 import { Header } from '../../Components/Header'
-import './Home.scss'
+import { Toaster } from '../../Components/Toaster'
 
 export const Home = () => {
+  const [show, setShow] = useState(false)
   return (
     <div className='home-container'>
       <Header />
@@ -13,9 +15,10 @@ export const Home = () => {
           <Banner />
         </section>
         <section className='section static'>
-          <Main />
+          <Main show={show} setShow={setShow} />
         </section>
       </div>
+      <Toaster show={show} setShow={setShow} />
     </div>
   )
 }

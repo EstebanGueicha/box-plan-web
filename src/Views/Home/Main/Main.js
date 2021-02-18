@@ -9,17 +9,20 @@ import athleteImage from '../../../Images/home/main/avatar.jpg'
 import coachImage from '../../../Images/home/main/coach.jpg'
 import { EmailForm } from '../EmailForm'
 
-export const Main = () => {
+export const Main = (props) => {
+  const { setShow, show } = props
   return (
     <Container bsPrefix='main-container'>
       <Card>
-        <Row>
-          <Col lg={12}>
-            <div className='main-div'>
+        <Row className='justify-content-center'>
+          <Col lg={8}>
+            <div className='main-div aboutus'>
               <h2>Conocé Box Plan</h2>
               <p>Tus atletas podrán usar la APP para ver las planificaciones y no depender de otras Aplicaciones. El coach dispone de la WEB para que sea más sencillo gestionar los equipos y también esta la posibilidad de utilizar la APP con funciones similares. Conoce algunos beneficios.</p>
             </div>
           </Col>
+        </Row>
+        <Row>
           <Col lg={4}>
             <div className='main-div'>
               <img src={iconTimer} alt='ícono reloj' className='icon' />
@@ -67,11 +70,13 @@ export const Main = () => {
               <p>Contanos si tenés alguna mejora o problema para poder ayudar y progresar juntos.</p>
             </div>
           </Col>
-          <Col lg={12}>
-            <div className='main-div'>
+        </Row>
+        <Row className='justify-content-center'>
+          <Col lg={8}>
+            <div className='main-div aboutus'>
               <h2 className='title'>Dejanos algún comentario</h2>
               <p>Contanos que te parece Box Plan. Si tenés alguna sugerencia o crítica será bien recibida. Estamos trabajando para poder darte más beneficios cada día.</p>
-              <EmailForm />
+              <EmailForm show={show} setShow={setShow} />
             </div>
           </Col>
         </Row>

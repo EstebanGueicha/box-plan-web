@@ -7,16 +7,15 @@
         padding: 3rem 6rem;
 
         .main-div {
-            justify-content: center;
-        }
-
-        .main-div {
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             padding: 2rem 4rem;
             text-align: center;
+            &.aboutus {
+                padding: 2rem 0;
+            }
         }
 
         .icon {
