@@ -19,7 +19,6 @@ export const SelectUserType = () => {
           Coach
           <div className='mark' />
         </p>
-
       </Button>
     </div>
   )

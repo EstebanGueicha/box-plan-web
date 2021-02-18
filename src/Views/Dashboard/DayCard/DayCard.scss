@@ -1,0 +1,9 @@
+.day-card{
+    height: 100%;
+    .card-title{
+        padding: 0.5rem;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+}

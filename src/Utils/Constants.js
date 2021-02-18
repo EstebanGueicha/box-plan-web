@@ -12,13 +12,3 @@ export const UserTypes = {
   athlete: { id: 1, description: 'Athlete' },
   none: { id: 2, description: 'none' }
 }
-
-export const DaysOfWeek = [
-  { id: 0, description: 'Lunes' },
-  { id: 1, description: 'Martes' },
-  { id: 2, description: 'Miércoles' },
-  { id: 3, description: 'Jueves' },
-  { id: 4, description: 'Viernes' },
-  { id: 5, description: 'Sábado' },
-  { id: 6, description: 'Domingo' }
-]

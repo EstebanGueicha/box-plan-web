@@ -37,4 +37,15 @@ groupsService.renameGroup = (data) => {
     .catch(err => { throw err })
 }
 
+groupsService.deleteGroup = (data) => {
+  return api.delete('/deleteGroup/BpGroup', data)
+    .then(res => res.data)
+    .catch(err => { throw err })
+}
+
+groupsService.searchMembers = (params) => {
+  return api.get('/searchNewMembersbyKey', { params })
+    .then(res => res.data)
+    .catch(err => { throw err })
+}
 export default groupsService

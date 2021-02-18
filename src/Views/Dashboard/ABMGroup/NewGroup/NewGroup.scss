@@ -1,0 +1,9 @@
+.button-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    margin-top: 2rem;
+    .btn-primary {
+        margin-left: 0.5rem;
+    }
+}
