@@ -16,8 +16,9 @@ $theme-colors: (
         src: url(https://fonts.googleapis.com/css2?family=Source+Sans+Pro&family=Staatliches&display=swap) format(Eext/css);
 }
 
-body {
+body, html, #root {
         font-family: 'Source Sans Pro', sans-serif;
+        height: 100%;
 }
 
 h1 {

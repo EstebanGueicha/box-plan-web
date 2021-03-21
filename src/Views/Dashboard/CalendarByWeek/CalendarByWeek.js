@@ -5,7 +5,7 @@ import DateFnsUtils from '@date-io/date-fns'
 import esLocale from 'date-fns/locale/es'
 import isSameDay from 'date-fns/isSameDay'
 import isWithinInterval from 'date-fns/isWithinInterval'
-import { startOfISOWeek, endOfISOWeek, getDate, getDaysInMonth, add, eachDayOfInterval } from 'date-fns'
+import { startOfISOWeek, endOfISOWeek, getDate, eachDayOfInterval } from 'date-fns'
 import { IconButton } from '@material-ui/core'
 import clsx from 'clsx'
 import format from 'date-fns/format'
@@ -16,7 +16,7 @@ import { setDay } from '../../../Redux/actions'
 
 export const CalendarByWeek = (props) => {
   const { setStartDate, setEndDate } = props
-  const days = useSelector((state) => state.days, shallowEqual) || ''
+  const days = useSelector((state) => state.days, shallowEqual) || []
   const [date, setDate] = useState(new Date())
   const classes = CalendarStyles()
   const dispatch = useDispatch()
@@ -32,7 +32,7 @@ export const CalendarByWeek = (props) => {
       end
     })
 
-    if (days) {
+    if (days && days.length) {
       days.map((item, index) => {
         item.numberDay = getDate(result[index])
         item.dateDay = result[index]
@@ -42,7 +42,6 @@ export const CalendarByWeek = (props) => {
 
     setStartDate(start)
     setEndDate(end)
-    console.log(start, end)
   }, [date, dispatch])
 
   const renderWrappedWeekDay = (date, selectedDate, dayInCurrentMonth) => {

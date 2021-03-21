@@ -11,13 +11,13 @@ export const SelectUserType = () => {
       <Button bsPrefix='buttonBase athlete' onClick={() => history.push('/dashboard/athlete')}>
         <p className='title'>
           Athlete
-          <div className='mark' />
+          <span className='mark' />
         </p>
       </Button>
       <Button bsPrefix='buttonBase coach' onClick={() => history.push('/dashboard/coach')}>
         <p className='title'>
           Coach
-          <div className='mark' />
+          <span className='mark' />
         </p>
       </Button>
     </div>

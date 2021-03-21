@@ -1,0 +1,13 @@
+.all-groups-container{
+    margin-top: 4rem;
+    .all-groups-buttons{
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+        margin-top: 2rem;
+        margin-bottom: 2rem;
+        .btn{
+            margin-left: 1rem;
+        }
+    }
+}

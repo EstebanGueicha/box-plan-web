@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import AsyncSelect from 'react-select/async'
-import { Button, Modal } from 'react-bootstrap'
+import { Button, Modal, Spinner } from 'react-bootstrap'
 import groupsService from '../../../../../Service/groups'
 
 export const AddMember = (props) => {
-  const { addMember, setAddMember, selectedGroup } = props
+  const { addMember, setAddMember, setFetchingMembers } = props
+  const { selectedGroup, showModal } = addMember
   const [searchMembers, setSearchMembers] = useState([])
   const [members, setMembers] = useState([])
   const [newMembers, setNewMembers] = useState([])
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     const getGroupMembers = async (groupId) => {
@@ -18,22 +20,17 @@ export const AddMember = (props) => {
         console.log(err)
       }
     }
-    if (selectedGroup && addMember) {
+    if (selectedGroup && showModal) {
       getGroupMembers(selectedGroup.id)
     }
-  }, [selectedGroup, addMember])
+  }, [selectedGroup, showModal])
 
   const loadOptions = async (searchValue, callback) => {
     try {
       if (searchValue.length % 2 === 0) {
         const results = await groupsService.searchMembers({ key: searchValue, groupID: selectedGroup.id })
-        console.log(results)
-        if (results.length) {
-          setSearchMembers(results)
-          const newItems = results.filter(item => !members.some(member => item.id === member.id))
-          const items = newItems.map(member => { return { value: member.id, label: member.name + ' , ' + member.mail } })
-          callback(items)
-        }
+        setSearchMembers(results)
+        callback(results.map(member => ({ value: member.id, label: member.name + ' , ' + member.mail })))
       }
     } catch (err) {
       console.log(err)
@@ -42,19 +39,24 @@ export const AddMember = (props) => {
 
   const membersHasChanged = (items) => {
     const newItems = items.filter(item => !members.some(member => item.value === member.id))
-    const newMember = searchMembers.filter(member => items.some(item => item.value === member.id))
+    setNewMembers(newItems)
+  }
 
-    if (newItems.length) {
-      const news = newMembers.concat(newMember)
-      const groupMembers = members.concat(newMembers)
-      setMembers(groupMembers)
-      setNewMembers(news)
+  const sendData = async () => {
+    try {
+      setLoading(true)
+      const members = newMembers.map(m => m.value)
+      await groupsService.addMembers({ groupID: selectedGroup.id, members })
+      setLoading(false)
+      setAddMember({ showModal: false, selectedGroup: null })
+      setFetchingMembers(prev => !prev)
+    } catch (err) {
+      console.log(err)
     }
   }
-  console.log(newMembers)
   return (
     <>
-      <Modal show={addMember} onHide={() => setAddMember(prev => !prev)} centered>
+      <Modal show={showModal} onHide={() => setAddMember({ showModal: false, selectedGroup: null })} centered>
         <Modal.Header closeButton>
           <Modal.Title>Agregar miembro</Modal.Title>
         </Modal.Header>
@@ -68,10 +70,15 @@ export const AddMember = (props) => {
           />
         </Modal.Body>
         <Modal.Footer>
-          <Button variant='outline-secondary' onClick={() => setAddMember(prev => !prev)}>
+          <Button variant='outline-secondary' onClick={() => setAddMember({ showModal: false, selectedGroup: null })} disabled={loading}>
             Cerrar
           </Button>
-          <Button variant='primary' onClick={() => setAddMember(prev => !prev)}>
+          <Button variant='primary' onClick={sendData} disabled={loading}>
+            {loading ? (
+              <Spinner
+                animation='border' role='status' size='sm' style={{ marginRight: '0.5rem' }}
+              />
+            ) : null}
             Guardar
           </Button>
         </Modal.Footer>

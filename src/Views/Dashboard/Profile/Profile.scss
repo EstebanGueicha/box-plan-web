@@ -1,0 +1,73 @@
+.profile-container {
+  margin-top: 4rem;
+  .card-body {
+    display: flex;
+    flex-direction: column;
+    .info-continer {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+
+      img {
+        border-radius: 50%;
+        width: 10rem;
+        height: 10rem;
+      }
+      .avatar-circle {
+        min-width: 10rem;
+        min-height: 10rem;
+        max-width: 10rem;
+        max-height: 10rem;
+        width: 10rem;
+        height: 10rem;
+        background-color: blueviolet;
+        text-align: center;
+        border-radius: 50%;
+        -webkit-border-radius: 50%;
+        -moz-border-radius: 50%;
+      }
+      .initials {
+        font-size: 4rem;
+        line-height: 2rem;
+        color: #fff;
+        font-weight: bold;
+      }
+      .name-tile {
+        font-family: "Staatliches";
+        font-weight: 400;
+        font-size: 2rem;
+        text-transform: uppercase;
+        margin-top: 1rem;
+      }
+      .email-title {
+        font-family: "Staatliches";
+        font-weight: 400;
+        font-size: 1.3rem;
+        text-transform: uppercase;
+      }
+    }
+    .group-container {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      .coach-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+      }
+      .coach-title {
+        font-family: "Staatliches";
+        font-weight: 400;
+        font-size: 1.3rem;
+        text-transform: uppercase;
+        color: blue;
+      }
+      .groups-title{
+          font-weight: bold;
+          margin-bottom: 0.5rem;
+          font-size: 1.2rem;
+      }
+    }
+  }
+}

@@ -31,7 +31,7 @@ export const LoginForm = (props) => {
     setLoading(true)
     try {
       flag === 'google' ? await authService.handleAuthGoogle() : await authService.handleAuthFacebook()
-      setLoading(false)
+      // setLoading(false)
       history.push('/dashboard')
     } catch (err) {
       console.log(err)
@@ -43,7 +43,7 @@ export const LoginForm = (props) => {
     setLoading(true)
     try {
       await authService.handleLogin(data.email, data.password)
-      setLoading(false)
+      // setLoading(false)
       history.push('/dashboard')
     } catch (err) {
       console.log(err)

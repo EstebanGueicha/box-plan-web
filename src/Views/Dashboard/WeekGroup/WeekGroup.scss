@@ -1,11 +1,46 @@
-.week-group-container{
-    margin-top: 1rem;
-    .calendar-card{
-        display: flex;
-        justify-content: center;
-        align-items: center;
+@import "../../../Theme/Components/colors.scss";
+.week-group-container {
+   margin-top: 1rem;
+  .grops-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    .group.dropdown {
+      .btn-primary {
+        font-family: "Staatliches", cursive;
+        font-size: 2rem;
+        color: $primary;
+        background-color: transparent;
+        border-color: transparent;
+        text-transform: uppercase;
+        &:focus {
+          box-shadow: initial;
+        }
+      }
+      .dropdown-menu.show {
+        width: 100%;
+        background-color: rgba(0, 0, 0, 0.9);
+      }
+      .dropdown-item {
+        font-family: "Staatliches", cursive;
+        color: #ffffff;
+        text-transform: uppercase;
+        font-size: 1.2rem;
+        &:hover {
+          background-color: $primary;
+        }
+      }
     }
-    .col-md-4{
-        margin-bottom: 1rem;
-    }
+  }
+  .calendar-card {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .col-md-4 {
+    margin-bottom: 1rem;
+  }
 }

@@ -1,0 +1,102 @@
+@import "../../../Theme/Components/colors.scss";
+.group-card {
+    margin-bottom: 1rem;
+    .card-title{
+        padding: 0.5rem 1rem;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        .group-continer{
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            .MuiSvgIcon-root{
+                width: 0.9rem;
+                height: 0.9rem;
+            }
+            .change-name{
+                margin-left: 1rem;
+                font-size: 0.8rem;
+            }
+        }
+        .group-title{
+            color:  blue;
+            font-family: 'Staatliches', cursive;
+            margin-bottom: initial;
+            font-size: 1.5rem;
+        }
+        .group-edit.dropdown{
+            .btn{
+                padding: 0.1rem 0.6rem;
+                border-radius: 50%;
+                .MuiSvgIcon-root{
+                    width: 1rem;
+                    height: 1rem;
+                }
+            }
+            .dropdown-toggle::after{
+                display: none;
+            }
+        }
+    }
+    .card-body{
+        padding-top: 0;
+        overflow: auto;
+        overflow-x: hidden;
+        .member-container{
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            margin-bottom: 0.8rem;
+            img {
+                border-radius: 50%;
+                width: 3rem;
+                height: 3rem;
+            }
+            .avatar-circle {
+                min-width: 1.5rem;
+                min-height: 1.5rem;
+                max-width: 1.5rem;
+                max-height: 1.5rem;
+                width: 1.5rem;
+                height: 1.5rem;
+                background-color: blueviolet;
+                text-align: center;
+                border-radius: 50%;
+                -webkit-border-radius: 50%;
+                -moz-border-radius: 50%;
+            }
+            .initials {
+                font-size: 0.7rem;
+                line-height: 1.5rem;
+                color: #fff;
+                font-weight: bold;
+            }
+            .member{
+                margin-bottom: initial;
+                margin-left: 0.5rem;
+            }
+            .icon-button{
+                display: none;
+            }
+            .MuiIconButton-root{
+                padding: initial;
+                margin-left: 0.5rem;
+            }
+            &:hover{
+                .member{
+                    color: red;
+                    margin-bottom: initial;
+                }
+                .icon-button{
+                    display: block;
+                    .MuiSvgIcon-root{
+                        width: 1.2rem;
+                        height: 1.2rem;
+                    }
+                }  
+            }
+        }
+    }
+}

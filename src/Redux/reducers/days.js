@@ -15,7 +15,7 @@ export default (state = defaultState, action) => {
     case SET_DAY:
       return state.map(days => {
         if (days.id === action.payload.id) {
-          return { ...days, numberDay: days.numberDay }
+          return { ...days, numberDay: days.numberDay, dateDay: days.dateDay }
         };
         return days
       })
