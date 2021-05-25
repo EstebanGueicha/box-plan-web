@@ -1,7 +1,7 @@
 import firebase from '../Service/firebaseConfig'
 
 const navigationGuard = async (to, from, next) => {
-  firebase.auth().onAuthStateChanged(user => {
+  firebase.auth().onAuthStateChanged((user) => {
     if ((to.meta.name === 'login' || to.meta.name === 'home') && user) {
       next.redirect('/dashboard')
     }

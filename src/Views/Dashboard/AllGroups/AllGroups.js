@@ -11,25 +11,26 @@ export const AllGroups = (props) => {
   const { groups, isAdmin, setFetching } = props
   const [deleteGroup, setDeleteGroup] = useState(false)
   const [newGroup, setNewGroup] = useState(false)
-  const [deleteGroupModal, setDeleteGroupModal] = useState({ showModal: false, selectedGroup: null })
+  const [deleteGroupModal, setDeleteGroupModal] = useState({
+    showModal: false,
+    selectedGroup: null,
+  })
   const [addMember, setAddMember] = useState({ showModal: false, selectedGroup: null })
   const [deleteMember, setDeleteMember] = useState({ showModal: false, member: null })
   const [fetchingMembers, setFetchingMembers] = useState(false)
 
   return (
-    <Container className='all-groups-container'>
+    <Container className="all-groups-container">
       {isAdmin ? (
-        <div className='all-groups-buttons'>
-          <Button onClick={() => setNewGroup(prev => !prev)}>+ Agregar Grupo</Button>
-          <Button variant='outline-primary' onClick={() => setDeleteGroup(prev => !prev)}>
+        <div className="all-groups-buttons">
+          <Button onClick={() => setNewGroup((prev) => !prev)}>+ Agregar Grupo</Button>
+          <Button variant="outline-primary" onClick={() => setDeleteGroup((prev) => !prev)}>
             {deleteGroup ? 'Me arrepenti' : 'Eliminar Grupo '}
           </Button>
         </div>
-      )
-        : null}
+      ) : null}
       {groups && groups.length
-        ? (
-          groups.map((item, index) =>
+        ? groups.map((item, index) => (
             <GroupCard
               key={index}
               item={item}
@@ -42,12 +43,32 @@ export const AllGroups = (props) => {
               fetchingMembers={fetchingMembers}
               setFetching={setFetching}
             />
-          )
-        ) : null}
-      {newGroup ? <NewGroup newGroup={newGroup} setNewGroup={setNewGroup} setFetching={setFetching} /> : null}
-      {deleteGroupModal.showModal ? <DeleteGroup deleteGroupModal={deleteGroupModal} setDeleteGroupModal={setDeleteGroupModal} setFetching={setFetching} /> : null}
-      {addMember.showModal ? <AddMember addMember={addMember} setAddMember={setAddMember} setFetchingMembers={setFetchingMembers} /> : null}
-      {deleteMember.showModal ? <DeleteMember deleteMember={deleteMember} setDeleteMember={setDeleteMember} setFetchingMembers={setFetchingMembers} /> : null}
+          ))
+        : null}
+      {newGroup ? (
+        <NewGroup newGroup={newGroup} setNewGroup={setNewGroup} setFetching={setFetching} />
+      ) : null}
+      {deleteGroupModal.showModal ? (
+        <DeleteGroup
+          deleteGroupModal={deleteGroupModal}
+          setDeleteGroupModal={setDeleteGroupModal}
+          setFetching={setFetching}
+        />
+      ) : null}
+      {addMember.showModal ? (
+        <AddMember
+          addMember={addMember}
+          setAddMember={setAddMember}
+          setFetchingMembers={setFetchingMembers}
+        />
+      ) : null}
+      {deleteMember.showModal ? (
+        <DeleteMember
+          deleteMember={deleteMember}
+          setDeleteMember={setDeleteMember}
+          setFetchingMembers={setFetchingMembers}
+        />
+      ) : null}
     </Container>
   )
 }

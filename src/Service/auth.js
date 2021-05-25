@@ -4,44 +4,64 @@ const authService = {}
 const tokenKey = 'token'
 
 authService.handleAuthGoogle = () => {
-  var provider = new firebase.auth.GoogleAuthProvider()
+  const provider = new firebase.auth.GoogleAuthProvider()
   firebase.auth().languageCode = 'es_ES'
-  return firebase.auth().signInWithPopup(provider)
-    .then(data => data.user)
-    .catch(err => { throw err })
+  return firebase
+    .auth()
+    .signInWithPopup(provider)
+    .then((data) => data.user)
+    .catch((err) => {
+      throw err
+    })
 }
 
 authService.handleAuthFacebook = () => {
-  var provider = new firebase.auth.FacebookAuthProvider()
+  const provider = new firebase.auth.FacebookAuthProvider()
   firebase.auth().languageCode = 'es_ES'
-  return firebase.auth().signInWithPopup(provider)
-    .then(data => data.user)
-    .catch(err => { throw err })
+  return firebase
+    .auth()
+    .signInWithPopup(provider)
+    .then((data) => data.user)
+    .catch((err) => {
+      throw err
+    })
 }
 
 authService.handleLogout = () => {
   authService.removeToken()
-  return firebase.auth().signOut()
-    .then(data => data)
-    .catch(err => { throw err })
+  return firebase
+    .auth()
+    .signOut()
+    .then((data) => data)
+    .catch((err) => {
+      throw err
+    })
 }
 
 authService.handleLogin = (email, password) => {
   firebase.auth().languageCode = 'es_ES'
-  return firebase.auth().signInWithEmailAndPassword(email, password)
-    .then(data => data.user)
-    .catch(err => { throw err })
+  return firebase
+    .auth()
+    .signInWithEmailAndPassword(email, password)
+    .then((data) => data.user)
+    .catch((err) => {
+      throw err
+    })
 }
 
 authService.signup = (email, password, firstName, lastName) => {
   firebase.auth().languageCode = 'es_ES'
-  return firebase.auth().createUserWithEmailAndPassword(email, password)
-    .then(data => {
+  return firebase
+    .auth()
+    .createUserWithEmailAndPassword(email, password)
+    .then((data) => {
       const user = firebase.auth().currentUser
       user.updateProfile({ displayName: firstName + ' ' + lastName })
       return data
     })
-    .catch(err => { throw err })
+    .catch((err) => {
+      throw err
+    })
 }
 
 authService.getToken = () => {

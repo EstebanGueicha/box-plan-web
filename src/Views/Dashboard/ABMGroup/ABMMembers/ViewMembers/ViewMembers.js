@@ -22,24 +22,22 @@ export const ViewMembers = (props) => {
 
   return (
     <>
-      <Modal show={viewMembers} onHide={() => setViewMembers(prev => !prev)} centered>
+      <Modal show={viewMembers} onHide={() => setViewMembers((prev) => !prev)} centered>
         <Modal.Header closeButton>
           <Modal.Title>integrantes</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          {members.length
-            ? (
-              members.map((item, index) =>
-                <p key={index}>{item.name}</p>
-              )
-            )
-            : <p>No hay integrantes</p>}
+          {members.length ? (
+            members.map((item, index) => <p key={index}>{item.name}</p>)
+          ) : (
+            <p>No hay integrantes</p>
+          )}
         </Modal.Body>
         <Modal.Footer>
-          <Button variant='outline-secondary' onClick={() => setViewMembers(prev => !prev)}>
+          <Button variant="outline-secondary" onClick={() => setViewMembers((prev) => !prev)}>
             Cerrar
           </Button>
-          <Button variant='primary' onClick={() => setViewMembers(prev => !prev)}>
+          <Button variant="primary" onClick={() => setViewMembers((prev) => !prev)}>
             Guardar
           </Button>
         </Modal.Footer>

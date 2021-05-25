@@ -1,4 +1,4 @@
-/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable array-callback-return */
 import React, { useEffect, useState } from 'react'
 import './CalendarByWeek.scss'
 import DateFnsUtils from '@date-io/date-fns'
@@ -21,7 +21,7 @@ export const CalendarByWeek = (props) => {
   const classes = CalendarStyles()
   const dispatch = useDispatch()
   const localeMap = {
-    es: esLocale
+    es: esLocale,
   }
 
   useEffect(() => {
@@ -29,7 +29,7 @@ export const CalendarByWeek = (props) => {
     const end = endOfISOWeek(date)
     const result = eachDayOfInterval({
       start,
-      end
+      end,
     })
 
     if (days && days.length) {
@@ -55,12 +55,12 @@ export const CalendarByWeek = (props) => {
     const wrapperClassName = clsx({
       [classes.highlight]: dayIsBetween,
       [classes.firstHighlight]: isFirstDay,
-      [classes.endHighlight]: isLastDay
+      [classes.endHighlight]: isLastDay,
     })
 
     const dayClassName = clsx(classes.day, {
       [classes.nonCurrentMonthDay]: !dayInCurrentMonth,
-      [classes.highlightNonCurrentMonthDay]: !dayInCurrentMonth && dayIsBetween
+      [classes.highlightNonCurrentMonthDay]: !dayInCurrentMonth && dayIsBetween,
     })
     return (
       <div className={wrapperClassName}>
@@ -72,11 +72,11 @@ export const CalendarByWeek = (props) => {
   }
 
   return (
-    <div className='week-picker-container'>
+    <div className="week-picker-container">
       <MuiPickersUtilsProvider utils={DateFnsUtils} locale={localeMap.es}>
         <DatePicker
-          variant='static'
-          openTo='date'
+          variant="static"
+          openTo="date"
           value={date}
           onChange={setDate}
           renderDay={renderWrappedWeekDay}

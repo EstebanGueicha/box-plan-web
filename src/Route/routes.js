@@ -10,7 +10,7 @@ export const routes = [
     path: '/ingresar',
     component: Login,
     exact: true,
-    meta: { isPublic: true, name: 'login' }
+    meta: { isPublic: true, name: 'login' },
   },
   {
     path: '/dashboard',
@@ -21,32 +21,32 @@ export const routes = [
         path: '/dashboard',
         component: SelectUserType,
         meta: { isPublic: false, name: 'coach' },
-        exact: true
+        exact: true,
       },
       {
         path: '/dashboard/:type',
         component: MainDashboard,
         meta: { isPublic: false },
-        exact: true
+        exact: true,
       },
       {
         path: '*',
         component: PageNotFound,
         meta: { isPublic: true },
-        exact: true
-      }
-    ]
+        exact: true,
+      },
+    ],
   },
   {
     path: '/',
     component: Home,
     meta: { isPublic: true, name: 'home' },
-    exact: true
+    exact: true,
   },
   {
     path: '*',
     component: PageNotFound,
     meta: { isPublic: true },
-    exact: true
-  }
+    exact: true,
+  },
 ]

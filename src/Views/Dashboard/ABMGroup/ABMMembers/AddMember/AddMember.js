@@ -28,9 +28,14 @@ export const AddMember = (props) => {
   const loadOptions = async (searchValue, callback) => {
     try {
       if (searchValue.length % 2 === 0) {
-        const results = await groupsService.searchMembers({ key: searchValue, groupID: selectedGroup.id })
+        const results = await groupsService.searchMembers({
+          key: searchValue,
+          groupID: selectedGroup.id,
+        })
         setSearchMembers(results)
-        callback(results.map(member => ({ value: member.id, label: member.name + ' , ' + member.mail })))
+        callback(
+          results.map((member) => ({ value: member.id, label: member.name + ' , ' + member.mail })),
+        )
       }
     } catch (err) {
       console.log(err)
@@ -38,45 +43,56 @@ export const AddMember = (props) => {
   }
 
   const membersHasChanged = (items) => {
-    const newItems = items.filter(item => !members.some(member => item.value === member.id))
+    const newItems = items.filter((item) => !members.some((member) => item.value === member.id))
     setNewMembers(newItems)
   }
 
   const sendData = async () => {
     try {
       setLoading(true)
-      const members = newMembers.map(m => m.value)
+      const members = newMembers.map((m) => m.value)
       await groupsService.addMembers({ groupID: selectedGroup.id, members })
       setLoading(false)
       setAddMember({ showModal: false, selectedGroup: null })
-      setFetchingMembers(prev => !prev)
+      setFetchingMembers((prev) => !prev)
     } catch (err) {
       console.log(err)
     }
   }
   return (
     <>
-      <Modal show={showModal} onHide={() => setAddMember({ showModal: false, selectedGroup: null })} centered>
+      <Modal
+        show={showModal}
+        onHide={() => setAddMember({ showModal: false, selectedGroup: null })}
+        centered
+      >
         <Modal.Header closeButton>
           <Modal.Title>Agregar miembro</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <AsyncSelect
             options={searchMembers}
-            placeholder='Nombre del atleta'
+            placeholder="Nombre del atleta"
             isMulti
             loadOptions={loadOptions}
-            onChange={opt => membersHasChanged(opt)}
+            onChange={(opt) => membersHasChanged(opt)}
           />
         </Modal.Body>
         <Modal.Footer>
-          <Button variant='outline-secondary' onClick={() => setAddMember({ showModal: false, selectedGroup: null })} disabled={loading}>
+          <Button
+            variant="outline-secondary"
+            onClick={() => setAddMember({ showModal: false, selectedGroup: null })}
+            disabled={loading}
+          >
             Cerrar
           </Button>
-          <Button variant='primary' onClick={sendData} disabled={loading}>
+          <Button variant="primary" onClick={sendData} disabled={loading}>
             {loading ? (
               <Spinner
-                animation='border' role='status' size='sm' style={{ marginRight: '0.5rem' }}
+                animation="border"
+                role="status"
+                size="sm"
+                style={{ marginRight: '0.5rem' }}
               />
             ) : null}
             Guardar

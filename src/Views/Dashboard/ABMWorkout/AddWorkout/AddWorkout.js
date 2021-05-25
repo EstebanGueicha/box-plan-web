@@ -15,7 +15,7 @@ const weightLiftingSessionDefault = [
   { sets: 2, reps: 4, percentage: 70 },
   { sets: 2, reps: 3, percentage: 75 },
   { sets: 2, reps: 3, percentage: 80 },
-  { sets: 2, reps: 2, percentage: 85 }
+  { sets: 2, reps: 2, percentage: 85 },
 ]
 
 export const AddWorkout = (props) => {
@@ -24,12 +24,10 @@ export const AddWorkout = (props) => {
   const [weightForm, setWeightForm] = useState(false)
   const [weightLiftingSession, setWeightLiftingSession] = useState(weightLiftingSessionDefault)
   // const [weight, setWeight] = useState(0)
-  const { register, errors, handleSubmit, control, watch } = useForm(
-    {
-      mode: 'onChange',
-      reValidateMode: 'onChange'
-    }
-  )
+  const { register, errors, handleSubmit, control, watch } = useForm({
+    mode: 'onChange',
+    reValidateMode: 'onChange',
+  })
 
   useEffect(() => {
     const category = watch('category')
@@ -47,7 +45,9 @@ export const AddWorkout = (props) => {
       data.date = addWorkout.item.dateDay
       data.wodType = data.category.id
       delete data.category
-      const result = addWorkout.workoutWeek.find(w => new Date(w.date).toUTCString() === new Date(data.date).toUTCString())
+      const result = addWorkout.workoutWeek.find(
+        (w) => new Date(w.date).toUTCString() === new Date(data.date).toUTCString(),
+      )
       // if (weightForm) {
       //   if (!weight) {
       //     setLoading(false)
@@ -69,8 +69,8 @@ export const AddWorkout = (props) => {
       console.log(data)
       await worksService.createWorkout(data)
       setLoading(false)
-      setFetching(prev => !prev)
-      setAddWorkout(prev => ({ ...prev, showModal: false }))
+      setFetching((prev) => !prev)
+      setAddWorkout((prev) => ({ ...prev, showModal: false }))
     } catch (err) {
       console.log(err)
       setLoading(false)
@@ -81,7 +81,7 @@ export const AddWorkout = (props) => {
   //   setWeight(event.target.value)
   // }
 
-  const handleWeightLiftingSession = index => e => {
+  const handleWeightLiftingSession = (index) => (e) => {
     const newArr = [...weightLiftingSession]
     newArr[index] = { ...newArr[index], [e.target.name]: parseInt(e.target.value) }
     setWeightLiftingSession(newArr)
@@ -109,38 +109,48 @@ export const AddWorkout = (props) => {
   console.log(weightLiftingSession)
   return (
     <>
-      <Modal show={addWorkout.showModal} onHide={() => loading ? setAddWorkout(prev => ({ ...prev, showModal: false })) : null} centered>
+      <Modal
+        show={addWorkout.showModal}
+        onHide={() => (loading ? setAddWorkout((prev) => ({ ...prev, showModal: false })) : null)}
+        centered
+      >
         <Modal.Header>
-          <Modal.Title>Agregar workout a {addWorkout.item.description} {addWorkout.item.numberDay} </Modal.Title>
+          <Modal.Title>
+            Agregar workout a {addWorkout.item.description} {addWorkout.item.numberDay}{' '}
+          </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Form onSubmit={handleSubmit((e) => { sendData(e) })}>
-            <Form.Group controlId='ProductCategory'>
+          <Form
+            onSubmit={handleSubmit((e) => {
+              sendData(e)
+            })}
+          >
+            <Form.Group controlId="ProductCategory">
               <Controller
                 as={Select}
                 options={WodTypes}
                 // defaultValue={product.category || null}
-                placeholder='Categoría'
-                getOptionLabel={option => option.description}
-                getOptionValue={option => option.id}
+                placeholder="Categoría"
+                getOptionLabel={(option) => option.description}
+                getOptionValue={(option) => option.id}
                 // value={getValues('categories')}
                 onChange={([option]) => option.id}
-                name='category'
+                name="category"
                 rules={{ required: true }}
                 control={control}
-                className={`select ${(errors.category ? 'active' : 'disable')}`}
+                className={`select ${errors.category ? 'active' : 'disable'}`}
               />
               {errors.category?.type === 'required' && <span>Este Campo es Requerido</span>}
             </Form.Group>
             <Form.Control
               ref={register({ required: true })}
-              type='number'
-              placeholder='Tiempo'
-              name='workoutTime'
-              className={`form-input ${(errors.workoutTime ? 'active' : 'disable')}`}
+              type="number"
+              placeholder="Tiempo"
+              name="workoutTime"
+              className={`form-input ${errors.workoutTime ? 'active' : 'disable'}`}
             />
             {weightForm ? (
-              <div className='weight-container'>
+              <div className="weight-container">
                 {/* <Form.Group controlId='ProductCategory'>
                   <Form.Control
                     type='text'
@@ -170,38 +180,42 @@ export const AddWorkout = (props) => {
                 {weightLiftingSession.map((item, index) => (
                   <Row key={index}>
                     <Col md={1}>
-                      <IconButton onClick={() => deleteColWeightLifting(index)}><HighlightOffIcon /></IconButton>
+                      <IconButton onClick={() => deleteColWeightLifting(index)}>
+                        <HighlightOffIcon />
+                      </IconButton>
                     </Col>
                     <Col md={3}>
                       <Form.Control
-                        type='number'
-                        placeholder='Sets'
+                        type="number"
+                        placeholder="Sets"
                         defaultValue={item.sets}
-                        name='sets'
-                        className={`form-input ${(errors.time ? 'active' : 'disable')}`}
+                        name="sets"
+                        className={`form-input ${errors.time ? 'active' : 'disable'}`}
                       />
                     </Col>
                     <Col md={3}>
                       <Form.Control
-                        type='number'
-                        placeholder='Reps'
+                        type="number"
+                        placeholder="Reps"
                         defaultValue={item.reps}
-                        name='reps'
-                        className={`form-input ${(errors.time ? 'active' : 'disable')}`}
+                        name="reps"
+                        className={`form-input ${errors.time ? 'active' : 'disable'}`}
                       />
                     </Col>
                     <Col md={3}>
                       <Form.Control
-                        type='number'
-                        name='percentage'
-                        placeholder='%'
+                        type="number"
+                        name="percentage"
+                        placeholder="%"
                         value={item.percentage}
                         onChange={handleWeightLiftingSession(index)}
-                        className={`form-input ${(errors.time ? 'active' : 'disable')}`}
+                        className={`form-input ${errors.time ? 'active' : 'disable'}`}
                       />
                     </Col>
                     <Col md={1}>
-                      <IconButton onClick={() => addColWeightLifting(index)}><AddCircleOutlineIcon /></IconButton>
+                      <IconButton onClick={() => addColWeightLifting(index)}>
+                        <AddCircleOutlineIcon />
+                      </IconButton>
                     </Col>
                     {/* <Col md={3}>
                       <p>{weight ? weight * item.percentage / 100 : 0}</p>
@@ -213,20 +227,27 @@ export const AddWorkout = (props) => {
             ) : null}
             <Form.Control
               ref={register({ required: true })}
-              as='textarea'
+              as="textarea"
               rows={5}
-              placeholder='Descripción'
-              name='workoutDescription'
-              className={`form-text-area ${(errors.workoutDescription ? 'active' : 'disable')}`}
+              placeholder="Descripción"
+              name="workoutDescription"
+              className={`form-text-area ${errors.workoutDescription ? 'active' : 'disable'}`}
             />
-            <div className='button-container'>
-              <Button variant='outline-secondary' onClick={() => setAddWorkout(prev => ({ ...prev, showModal: false }))} disabled={loading}>
+            <div className="button-container">
+              <Button
+                variant="outline-secondary"
+                onClick={() => setAddWorkout((prev) => ({ ...prev, showModal: false }))}
+                disabled={loading}
+              >
                 Cerrar
               </Button>
-              <Button variant='primary' type='submit' disabled={loading}>
+              <Button variant="primary" type="submit" disabled={loading}>
                 {loading ? (
                   <Spinner
-                    animation='border' role='status' size='sm' style={{ marginRight: '0.5rem' }}
+                    animation="border"
+                    role="status"
+                    size="sm"
+                    style={{ marginRight: '0.5rem' }}
                   />
                 ) : null}
                 Guardar

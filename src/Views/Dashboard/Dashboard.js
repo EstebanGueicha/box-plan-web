@@ -14,11 +14,14 @@ export const Dashboard = ({ routes }) => {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    firebase.auth().onAuthStateChanged(user => setUser(user))
+    firebase.auth().onAuthStateChanged((user) => setUser(user))
     const getUser = async () => {
       try {
         const { displayName, email, photoURL } = user
-        const userData = await userService.loginWithSocialCredentials({ name: displayName, mail: email })
+        const userData = await userService.loginWithSocialCredentials({
+          name: displayName,
+          mail: email,
+        })
         userData.avatar = photoURL
         dispatch(setUserData(userData))
       } catch (err) {
@@ -31,7 +34,7 @@ export const Dashboard = ({ routes }) => {
   }, [dispatch, user, id])
 
   return (
-    <div className='background-container'>
+    <div className="background-container">
       <GuardProvider guards={[navigationGuard]}>
         <Switch>
           {routes.map((route, i) => (
@@ -40,7 +43,7 @@ export const Dashboard = ({ routes }) => {
               path={route.path}
               exact={route.exact}
               meta={route.meta}
-              render={props => {
+              render={(props) => {
                 return <route.component {...props} routes={route.routes} meta={route.meta} />
               }}
             />

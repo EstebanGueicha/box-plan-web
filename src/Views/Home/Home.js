@@ -8,13 +8,13 @@ import { Toaster } from '../../Components/Toaster'
 export const Home = () => {
   const [show, setShow] = useState(false)
   return (
-    <div className='home-container'>
+    <div className="home-container">
       <Header />
-      <div className='wrapper'>
-        <section className='section parallax bg1'>
+      <div className="wrapper">
+        <section className="section parallax bg1">
           <Banner />
         </section>
-        <section className='section static'>
+        <section className="section static">
           <Main show={show} setShow={setShow} />
         </section>
       </div>

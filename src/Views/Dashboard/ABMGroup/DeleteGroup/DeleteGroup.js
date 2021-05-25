@@ -10,7 +10,7 @@ export const DeleteGroup = (props) => {
     try {
       setLoading(true)
       await groupsService.deleteGroup({ idgroup: selectedGroup.id })
-      setFetching(prev => !prev)
+      setFetching((prev) => !prev)
       setLoading(false)
       setDeleteGroupModal({ showModal: false, selectedGroup: null })
     } catch (err) {
@@ -21,7 +21,11 @@ export const DeleteGroup = (props) => {
 
   return (
     <>
-      <Modal show={showModal} onHide={() => setDeleteGroupModal({ showModal: false, selectedGroup: null })} centered>
+      <Modal
+        show={showModal}
+        onHide={() => setDeleteGroupModal({ showModal: false, selectedGroup: null })}
+        centered
+      >
         <Modal.Header closeButton>
           <Modal.Title>Eliminar grupo {selectedGroup.name}</Modal.Title>
         </Modal.Header>
@@ -29,13 +33,19 @@ export const DeleteGroup = (props) => {
           <p>¿Esta seguro que desea eliminar este gupo?</p>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant='outline-secondary' onClick={() => setDeleteGroupModal({ showModal: false, selectedGroup: null })}>
+          <Button
+            variant="outline-secondary"
+            onClick={() => setDeleteGroupModal({ showModal: false, selectedGroup: null })}
+          >
             Cerrar
           </Button>
-          <Button variant='primary' onClick={() => deleteThisGroup()}>
+          <Button variant="primary" onClick={() => deleteThisGroup()}>
             {loading ? (
               <Spinner
-                animation='border' role='status' size='sm' style={{ marginRight: '0.5rem' }}
+                animation="border"
+                role="status"
+                size="sm"
+                style={{ marginRight: '0.5rem' }}
               />
             ) : null}
             Eliminar

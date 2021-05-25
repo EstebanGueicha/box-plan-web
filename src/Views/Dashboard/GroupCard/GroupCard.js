@@ -11,7 +11,17 @@ import ClearIcon from '@material-ui/icons/Clear'
 import { shallowEqual, useSelector } from 'react-redux'
 
 export const GroupCard = (props) => {
-  const { item, deleteGroup, isAdmin, setAddMember, setDeleteMember, setDeleteGroupModal, fetchingMembers, setDeleteGroup, setFetching } = props
+  const {
+    item,
+    deleteGroup,
+    isAdmin,
+    setAddMember,
+    setDeleteMember,
+    setDeleteGroupModal,
+    fetchingMembers,
+    setDeleteGroup,
+    setFetching,
+  } = props
   const { id } = useSelector((state) => state.user, shallowEqual) || ''
   const [members, setMembers] = useState([])
   const [editName, setEditName] = useState(false)
@@ -39,8 +49,8 @@ export const GroupCard = (props) => {
       data.groupID = item.id
       await groupsService.renameGroup(data)
       setLoading(false)
-      setFetching(prev => !prev)
-      setEditName(prev => !prev)
+      setFetching((prev) => !prev)
+      setEditName((prev) => !prev)
     } catch (err) {
       console.log(err)
       setLoading(false)
@@ -50,56 +60,93 @@ export const GroupCard = (props) => {
   return (
     <LoadingOverlay
       active={deleteGroup}
-      spinner={<Button onClick={() => { setDeleteGroup(prev => !prev); setDeleteGroupModal({ showModal: true, selectedGroup: item }) }}>Eliminar grupo {item.name}</Button>}
+      spinner={
+        <Button
+          onClick={() => {
+            setDeleteGroup((prev) => !prev)
+            setDeleteGroupModal({ showModal: true, selectedGroup: item })
+          }}
+        >
+          Eliminar grupo {item.name}
+        </Button>
+      }
       className={`overlay ${deleteGroup}`}
     >
-      <Card className='group-card'>
+      <Card className="group-card">
         <Card.Title>
-          <div className='group-continer'>
-            {editName ? <TextField value={newName} onChange={e => setNewName(e.target.value)} /> : <p className='group-title'>{item.name}</p>}
+          <div className="group-continer">
+            {editName ? (
+              <TextField value={newName} onChange={(e) => setNewName(e.target.value)} />
+            ) : (
+              <p className="group-title">{item.name}</p>
+            )}
             {editName ? (
               <Button
-                className='change-name'
+                className="change-name"
                 disabled={loading}
-                onClick={() => newName ? changeNameGroup() : null}
+                onClick={() => (newName ? changeNameGroup() : null)}
               >
                 {loading ? (
                   <Spinner
-                    animation='border' role='status' size='sm' style={{ marginRight: '0.5rem' }}
+                    animation="border"
+                    role="status"
+                    size="sm"
+                    style={{ marginRight: '0.5rem' }}
                   />
                 ) : null}
                 Cambiar
               </Button>
             ) : null}
-            {isAdmin ? <IconButton title='Editar nombre' onClick={() => setEditName(prev => !prev)}> {editName ? <ClearIcon /> : <EditIcon />}  </IconButton> : null}
+            {isAdmin ? (
+              <IconButton title="Editar nombre" onClick={() => setEditName((prev) => !prev)}>
+                {' '}
+                {editName ? <ClearIcon /> : <EditIcon />}{' '}
+              </IconButton>
+            ) : null}
           </div>
-          {isAdmin ? <IconButton onClick={() => setAddMember({ showModal: true, selectedGroup: item })} title='Agregar integrante'> <PersonAddIcon /> </IconButton> : null}
+          {isAdmin ? (
+            <IconButton
+              onClick={() => setAddMember({ showModal: true, selectedGroup: item })}
+              title="Agregar integrante"
+            >
+              {' '}
+              <PersonAddIcon />{' '}
+            </IconButton>
+          ) : null}
         </Card.Title>
         <Card.Body>
           <Row>
-            {members.length
-              ? (
-                members.map((member, index) =>
-                  <Col md={3} key={index}>
-                    <div className='member-container'>
-                      {member.avatar
-                        ? <Image src={member.avatar.imageUrl} className='img-fluid' alt='Imagen de Empresa' />
-                        : (
-                          <div className='avatar-circle'>
-                            <span className='initials'>{member.name.toUpperCase().charAt(0)}</span>
-                          </div>
-                        )}
-                      <p className='member'>{member.name}</p>
-                      {member.id !== id && isAdmin ? (
-                        <IconButton className='icon-button' title='Eliminar integrante' onClick={() => setDeleteMember({ showModal: true, member: member })}>
-                          <DeleteForeverIcon />
-                        </IconButton>
-                      ) : null}
-                    </div>
-                  </Col>
-                )
-              )
-              : <p>No hay integrantes</p>}
+            {members.length ? (
+              members.map((member, index) => (
+                <Col md={3} key={index}>
+                  <div className="member-container">
+                    {member.avatar ? (
+                      <Image
+                        src={member.avatar.imageUrl}
+                        className="img-fluid"
+                        alt="Imagen de Empresa"
+                      />
+                    ) : (
+                      <div className="avatar-circle">
+                        <span className="initials">{member.name.toUpperCase().charAt(0)}</span>
+                      </div>
+                    )}
+                    <p className="member">{member.name}</p>
+                    {member.id !== id && isAdmin ? (
+                      <IconButton
+                        className="icon-button"
+                        title="Eliminar integrante"
+                        onClick={() => setDeleteMember({ showModal: true, member: member })}
+                      >
+                        <DeleteForeverIcon />
+                      </IconButton>
+                    ) : null}
+                  </div>
+                </Col>
+              ))
+            ) : (
+              <p>No hay integrantes</p>
+            )}
           </Row>
         </Card.Body>
       </Card>

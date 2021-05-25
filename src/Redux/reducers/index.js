@@ -4,7 +4,7 @@ import days from './days'
 
 const reducers = combineReducers({
   user,
-  days
+  days,
 })
 
 export default reducers

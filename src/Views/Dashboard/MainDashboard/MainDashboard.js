@@ -29,13 +29,11 @@ import { Profile } from '../Profile'
 const drawerWidth = 260
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-
-  },
+  root: {},
   drawer: {
     width: drawerWidth,
     flexShrink: 0,
-    whiteSpace: 'nowrap'
+    whiteSpace: 'nowrap',
   },
   drawerOpen: {
     background: 'rgba(0, 0, 0, 0.5)',
@@ -43,21 +41,21 @@ const useStyles = makeStyles((theme) => ({
     width: drawerWidth,
     transition: theme.transitions.create('width', {
       easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen
-    })
+      duration: theme.transitions.duration.enteringScreen,
+    }),
   },
   drawerClose: {
     background: 'rgba(0, 0, 0, 0.5)',
     boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
     transition: theme.transitions.create('width', {
       easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen
+      duration: theme.transitions.duration.leavingScreen,
     }),
     overflowX: 'hidden',
     width: theme.spacing(4),
     [theme.breakpoints.up('sm')]: {
-      width: theme.spacing(7)
-    }
+      width: theme.spacing(7),
+    },
   },
   toolbar: {
     display: 'flex',
@@ -65,12 +63,12 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'flex-end',
     padding: theme.spacing(0, 1),
     // necessary for content to be below app bar
-    ...theme.mixins.toolbar
+    ...theme.mixins.toolbar,
   },
   content: {
     flexGrow: 1,
-    paddingLeft: theme.spacing(3)
-  }
+    paddingLeft: theme.spacing(3),
+  },
 }))
 
 export const MainDashboard = () => {
@@ -119,67 +117,74 @@ export const MainDashboard = () => {
     <div className={classes.root}>
       <CssBaseline />
       <Drawer
-        variant='permanent'
+        variant="permanent"
         className={clsx(classes.drawer, {
           [classes.drawerOpen]: open,
-          [classes.drawerClose]: !open
+          [classes.drawerClose]: !open,
         })}
         classes={{
           paper: clsx({
             [classes.drawerOpen]: open,
-            [classes.drawerClose]: !open
-          })
+            [classes.drawerClose]: !open,
+          }),
         }}
       >
         <div className={classes.toolbar}>
-          <IconButton style={{}} onClick={() => setOpen(prev => !prev)}>
-            {open ? <ChevronLeftIcon style={{ color: 'orange' }} /> : <MenuIcon style={{ color: 'orange' }} />}
+          <IconButton style={{}} onClick={() => setOpen((prev) => !prev)}>
+            {open ? <ChevronLeftIcon color="secondary" /> : <MenuIcon color="secondary" />}
           </IconButton>
         </div>
         <List>
-          <ListItem button onClick={() => setShowComponent('weekGroup')} title='IR A HOME'>
-            <ListItemIcon><HomeIcon style={{ color: 'orange' }} /></ListItemIcon>
-            <ListItemText style={{ color: 'orange' }} primary='IR A HOME' />
+          <ListItem button onClick={() => setShowComponent('weekGroup')} title="IR A HOME">
+            <ListItemIcon>
+              <HomeIcon color="secondary" />
+            </ListItemIcon>
+            <ListItemText color="secondary" primary="IR A HOME" />
           </ListItem>
-          <ListItem button onClick={() => setShowComponent('allGroups')} title='ADMINISTRAR GRUPOS'>
-            <ListItemIcon><PeopleOutlineIcon style={{ color: 'orange' }} /></ListItemIcon>
-            <ListItemText style={{ color: 'orange' }} primary='ADMINISTRAR GRUPOS' />
+          <ListItem button onClick={() => setShowComponent('allGroups')} title="ADMINISTRAR GRUPOS">
+            <ListItemIcon>
+              <PeopleOutlineIcon color="secondary" />
+            </ListItemIcon>
+            <ListItemText color="secondary" primary="ADMINISTRAR GRUPOS" />
           </ListItem>
-          <ListItem button onClick={() => setShowComponent('profile')} title='ADMINISTRAR PERFIL'>
-            <ListItemIcon><PersonOutlineIcon style={{ color: 'orange' }} /></ListItemIcon>
-            <ListItemText style={{ color: 'orange' }} primary='ADMINISTRAR PERFIL' />
+          <ListItem button onClick={() => setShowComponent('profile')} title="ADMINISTRAR PERFIL">
+            <ListItemIcon>
+              <PersonOutlineIcon color="secondary" />
+            </ListItemIcon>
+            <ListItemText color="secondary" primary="ADMINISTRAR PERFIL" />
           </ListItem>
-          <ListItem button onClick={() => logout()} title='CERRAR SESIÓN'>
-            <ListItemIcon><ExitToAppIcon style={{ color: 'orange' }} /></ListItemIcon>
-            <ListItemText style={{ color: 'orange' }} primary='CERRAR SESIÓN' />
+          <ListItem button onClick={() => logout()} title="CERRAR SESIÓN">
+            <ListItemIcon>
+              <ExitToAppIcon color="secondary" />
+            </ListItemIcon>
+            <ListItemText color="secondary" primary="CERRAR SESIÓN" />
           </ListItem>
         </List>
-
       </Drawer>
       <main className={classes.content}>
-
-        {showComponent === 'weekGroup' && selectedGroup
-          ? (
-            <WeekGroup
-              setAddWorkout={setAddWorkout}
-              setSelectedGroup={setSelectedGroup}
-              fetching={fetching}
-              setFetching={setFetching}
-              selectedGroup={selectedGroup}
-              groups={groups}
-              isAdmin={isAdmin}
-              setShowComponent={() => setShowComponent('allGroups')}
-            />
-          ) : (
-            showComponent === 'allGroups'
-              ? (
-                <AllGroups groups={groups} isAdmin={isAdmin} setFetching={setFetching} />
-              ) : (
-                showComponent === 'profile' ? (
-                  <Profile />
-                ) : null
-              ))}
-        {addWorkout.showModal ? <AddWorkout addWorkout={addWorkout} setAddWorkout={setAddWorkout} setFetching={setFetching} /> : null}
+        {showComponent === 'weekGroup' && selectedGroup ? (
+          <WeekGroup
+            setAddWorkout={setAddWorkout}
+            setSelectedGroup={setSelectedGroup}
+            fetching={fetching}
+            setFetching={setFetching}
+            selectedGroup={selectedGroup}
+            groups={groups}
+            isAdmin={isAdmin}
+            setShowComponent={() => setShowComponent('allGroups')}
+          />
+        ) : showComponent === 'allGroups' ? (
+          <AllGroups groups={groups} isAdmin={isAdmin} setFetching={setFetching} />
+        ) : showComponent === 'profile' ? (
+          <Profile />
+        ) : null}
+        {addWorkout.showModal ? (
+          <AddWorkout
+            addWorkout={addWorkout}
+            setAddWorkout={setAddWorkout}
+            setFetching={setFetching}
+          />
+        ) : null}
       </main>
     </div>
   )

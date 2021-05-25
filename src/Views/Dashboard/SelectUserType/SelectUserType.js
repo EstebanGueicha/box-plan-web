@@ -7,17 +7,17 @@ export const SelectUserType = () => {
   const history = useHistory()
 
   return (
-    <div className='select-user-type'>
-      <Button bsPrefix='buttonBase athlete' onClick={() => history.push('/dashboard/athlete')}>
-        <p className='title'>
+    <div className="select-user-type">
+      <Button bsPrefix="buttonBase athlete" onClick={() => history.push('/dashboard/athlete')}>
+        <p className="title">
           Athlete
-          <span className='mark' />
+          <span className="mark" />
         </p>
       </Button>
-      <Button bsPrefix='buttonBase coach' onClick={() => history.push('/dashboard/coach')}>
-        <p className='title'>
+      <Button bsPrefix="buttonBase coach" onClick={() => history.push('/dashboard/coach')}>
+        <p className="title">
           Coach
-          <span className='mark' />
+          <span className="mark" />
         </p>
       </Button>
     </div>

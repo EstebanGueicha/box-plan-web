@@ -7,21 +7,21 @@ const defaultState = [
   { id: 3, description: 'Jueves', numberDay: 0 },
   { id: 4, description: 'Viernes', numberDay: 0 },
   { id: 5, description: 'Sábado', numberDay: 0 },
-  { id: 6, description: 'Domingo', numberDay: 0 }
+  { id: 6, description: 'Domingo', numberDay: 0 },
 ]
 
 export default (state = defaultState, action) => {
   switch (action.type) {
     case SET_DAY:
-      return state.map(days => {
+      return state.map((days) => {
         if (days.id === action.payload.id) {
           return { ...days, numberDay: days.numberDay, dateDay: days.dateDay }
-        };
+        }
         return days
       })
     case CLEAR_USER:
       return {
-        ...defaultState
+        ...defaultState,
       }
     default:
       return state

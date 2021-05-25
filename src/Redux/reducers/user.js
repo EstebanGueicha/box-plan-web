@@ -1,7 +1,7 @@
 import { SET_USER, CLEAR_USER } from '../actionTypes'
 
 const defaultState = {
-  role: {}
+  role: {},
 }
 
 export default (state = defaultState, action) => {
@@ -9,11 +9,11 @@ export default (state = defaultState, action) => {
     case SET_USER:
       return {
         ...state,
-        ...action.payload
+        ...action.payload,
       }
     case CLEAR_USER:
       return {
-        ...defaultState
+        ...defaultState,
       }
     default:
       return state
