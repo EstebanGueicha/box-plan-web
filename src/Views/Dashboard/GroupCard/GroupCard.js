@@ -9,6 +9,7 @@ import PersonAddIcon from '@material-ui/icons/PersonAdd'
 import LoadingOverlay from 'react-loading-overlay'
 import ClearIcon from '@material-ui/icons/Clear'
 import { shallowEqual, useSelector } from 'react-redux'
+import Coach from '../../../Images/coach.svg'
 
 export const GroupCard = (props) => {
   const {
@@ -21,9 +22,12 @@ export const GroupCard = (props) => {
     fetchingMembers,
     setDeleteGroup,
     setFetching,
+    setAddCoach,
+    setDeleteCoach,
   } = props
   const { id } = useSelector((state) => state.user, shallowEqual) || ''
-  const [members, setMembers] = useState([])
+  const [athletes, setAthletes] = useState([])
+  const [coaches, setCoaches] = useState([])
   const [editName, setEditName] = useState(false)
   const [loading, setLoading] = useState(false)
   const [newName, setNewName] = useState(item.name)
@@ -31,8 +35,9 @@ export const GroupCard = (props) => {
   useEffect(() => {
     const getGroupMembers = async () => {
       try {
-        const members = await groupsService.getGroupMembers({ groupID: item.id })
-        setMembers(members)
+        const { athletes, coaches } = await groupsService.getGroupMembers({ groupID: item.id })
+        setAthletes(athletes)
+        setCoaches(coaches)
       } catch (err) {
         console.log(err)
       }
@@ -99,54 +104,129 @@ export const GroupCard = (props) => {
             ) : null}
             {isAdmin ? (
               <IconButton title="Editar nombre" onClick={() => setEditName((prev) => !prev)}>
-                {' '}
-                {editName ? <ClearIcon /> : <EditIcon />}{' '}
+                {editName ? <ClearIcon /> : <EditIcon />}
               </IconButton>
             ) : null}
           </div>
           {isAdmin ? (
-            <IconButton
-              onClick={() => setAddMember({ showModal: true, selectedGroup: item })}
-              title="Agregar integrante"
-            >
-              {' '}
-              <PersonAddIcon />{' '}
-            </IconButton>
+            <div>
+              <IconButton
+                onClick={() => setAddMember({ showModal: true, selectedGroup: item })}
+                title="Agregar integrante"
+              >
+                <PersonAddIcon />
+              </IconButton>
+              <IconButton
+                onClick={() => setAddCoach({ showModal: true, selectedGroup: item })}
+                title="Agregar coach"
+              >
+                <img src={Coach} alt="coach" width="20" height="20" />
+              </IconButton>
+            </div>
           ) : null}
         </Card.Title>
         <Card.Body>
           <Row>
-            {members.length ? (
-              members.map((member, index) => (
-                <Col md={3} key={index}>
-                  <div className="member-container">
-                    {member.avatar ? (
-                      <Image
-                        src={member.avatar.imageUrl}
-                        className="img-fluid"
-                        alt="Imagen de Empresa"
-                      />
-                    ) : (
-                      <div className="avatar-circle">
-                        <span className="initials">{member.name.toUpperCase().charAt(0)}</span>
-                      </div>
-                    )}
-                    <p className="member">{member.name}</p>
-                    {member.id !== id && isAdmin ? (
-                      <IconButton
-                        className="icon-button"
-                        title="Eliminar integrante"
-                        onClick={() => setDeleteMember({ showModal: true, member: member })}
-                      >
-                        <DeleteForeverIcon />
-                      </IconButton>
-                    ) : null}
-                  </div>
+            <Col md={12}>
+              <Row>
+                <Col md={2}>
+                  <p className="title">Coaches:</p>
                 </Col>
-              ))
-            ) : (
-              <p>No hay integrantes</p>
-            )}
+                <Col md={10}>
+                  <Row>
+                    {coaches.length ? (
+                      coaches.map((coach, index) => (
+                        <Col md={3} key={index}>
+                          <div className="member-container">
+                            {coach.avatar ? (
+                              <Image
+                                src={coach.avatar.imageUrl}
+                                className="img-fluid"
+                                alt="Imagen de Empresa"
+                              />
+                            ) : (
+                              <div className="avatar-circle">
+                                <span className="initials">
+                                  {coach.name ? coach.name.toUpperCase().charAt(0) : ''}
+                                </span>
+                              </div>
+                            )}
+                            <p className="member">{coach.name}</p>
+                            {coach.id !== id && isAdmin ? (
+                              <IconButton
+                                className="icon-button"
+                                title="Eliminar integrante"
+                                onClick={() =>
+                                  setDeleteCoach({
+                                    showModal: true,
+                                    member: coach,
+                                    selectedGroup: item,
+                                  })
+                                }
+                              >
+                                <DeleteForeverIcon />
+                              </IconButton>
+                            ) : null}
+                          </div>
+                        </Col>
+                      ))
+                    ) : (
+                      <p>No hay Coaches</p>
+                    )}
+                  </Row>
+                </Col>
+              </Row>
+            </Col>
+            <Col md={12}>
+              <Row>
+                <Col md={2}>
+                  <p className="title">Atletas:</p>
+                </Col>
+                <Col md={10}>
+                  <Row>
+                    {athletes.length ? (
+                      athletes.map((athlet, index) => (
+                        <Col md={3} key={index}>
+                          <div className="member-container">
+                            {athlet.avatar ? (
+                              <Image
+                                src={athlet.avatar.imageUrl}
+                                className="img-fluid"
+                                alt="Imagen de Empresa"
+                              />
+                            ) : (
+                              <div className="avatar-circle">
+                                <span className="initials">
+                                  {athlet.name ? athlet.name.toUpperCase().charAt(0) : ''}
+                                </span>
+                              </div>
+                            )}
+                            <p className="member">{athlet.name}</p>
+                            {athlet.id !== id && isAdmin ? (
+                              <IconButton
+                                className="icon-button"
+                                title="Eliminar integrante"
+                                onClick={() =>
+                                  setDeleteMember({
+                                    showModal: true,
+                                    member: athlet,
+                                    selectedGroup: item,
+                                  })
+                                }
+                              >
+                                <DeleteForeverIcon />
+                              </IconButton>
+                            ) : null}
+                          </div>
+                        </Col>
+                      ))
+                    ) : (
+                      <p>No hay Atletas aún</p>
+                    )}
+                  </Row>
+                </Col>
+              </Row>
+            </Col>
           </Row>
         </Card.Body>
       </Card>

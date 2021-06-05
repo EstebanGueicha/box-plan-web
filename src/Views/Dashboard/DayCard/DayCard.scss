@@ -34,9 +34,23 @@
         padding-top: 0;
         overflow: auto;
         overflow-x: hidden;
+        &::-webkit-scrollbar {
+            width: 0.7rem;
+          }
+          &::-webkit-scrollbar-track {
+            border-radius: 10px;
+          }
+          &::-webkit-scrollbar-thumb {
+            background: $secondary;
+            border-radius: 10px;
+          }
+          &::-webkit-scrollbar-thumb:hover {
+            background: #cfcfcf;
+          }
         .view-card-container {
             padding: 0;
             border: 1px solid rgba(0, 0, 0, 0.05);
+
             .card-body {
                 padding: 1rem;
                 .cat-time-container {

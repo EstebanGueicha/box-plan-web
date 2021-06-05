@@ -12,12 +12,13 @@ import { IconButton } from '@material-ui/core'
 export const WeekGroup = (props) => {
   const {
     setAddWorkout,
-    fetching,
     selectedGroup,
     groups,
     setSelectedGroup,
     isAdmin,
     setShowComponent,
+    fetchingWorkout,
+    setDeleteWorkout,
   } = props
   const [startDate, setStartDate] = useState(null)
   const [endDate, setEndDate] = useState(null)
@@ -29,7 +30,11 @@ export const WeekGroup = (props) => {
   useEffect(() => {
     const getWeekWorkouts = async () => {
       try {
-        const workout = await worksService.getDaysForWeek({ startDate, endDate })
+        const workout = await worksService.getDaysForWeek({
+          startDate,
+          endDate,
+          groupID: selectedGroup.id,
+        })
         setWorkoutWeek(workout)
       } catch (err) {
         console.log()
@@ -38,7 +43,7 @@ export const WeekGroup = (props) => {
     if (startDate && endDate) {
       getWeekWorkouts()
     }
-  }, [startDate, endDate, fetching])
+  }, [startDate, endDate, fetchingWorkout, selectedGroup])
 
   return (
     <Container className="week-group-container">
@@ -111,10 +116,12 @@ export const WeekGroup = (props) => {
             <DayCard
               item={days[selectedDay]}
               setAddWorkout={setAddWorkout}
+              setDeleteWorkout={setDeleteWorkout}
               workoutWeek={workoutWeek}
               startDate={startDate}
               isAdmin={isAdmin}
               viewStyle={viewStyle}
+              selectedGroup={selectedGroup}
             />
           </Col>
         ) : Object.keys(days).length ? (
@@ -123,10 +130,12 @@ export const WeekGroup = (props) => {
               <DayCard
                 item={item}
                 setAddWorkout={setAddWorkout}
+                setDeleteWorkout={setDeleteWorkout}
                 workoutWeek={workoutWeek}
                 startDate={startDate}
                 isAdmin={isAdmin}
                 viewStyle={viewStyle}
+                selectedGroup={selectedGroup}
               />
             </Col>
           ))

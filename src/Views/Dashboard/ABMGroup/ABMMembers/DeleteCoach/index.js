@@ -1,0 +1,1 @@
+export { DeleteCoach } from './DeleteCoach'

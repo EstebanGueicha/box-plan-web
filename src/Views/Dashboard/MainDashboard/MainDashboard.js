@@ -25,6 +25,7 @@ import { AddWorkout } from '../ABMWorkout/AddWorkout'
 import './MainDashboard.scss'
 import { AllGroups } from '../AllGroups'
 import { Profile } from '../Profile'
+import { DeleteWorkout } from '../ABMWorkout/DeleteWorks'
 
 const drawerWidth = 260
 
@@ -78,9 +79,11 @@ export const MainDashboard = () => {
   const { id } = useSelector((state) => state.user, shallowEqual) || ''
   const [groups, setGroups] = useState([])
   const [fetching, setFetching] = useState(false)
+  const [fetchingWorkout, setFetchingWorkout] = useState(false)
   const [showComponent, setShowComponent] = useState('weekGroup')
 
   const [addWorkout, setAddWorkout] = useState({ showModal: false })
+  const [deleteWorkout, setDeleteWorkout] = useState({ showModal: false })
 
   const [selectedGroup, setSelectedGroup] = useState(null)
 
@@ -165,9 +168,12 @@ export const MainDashboard = () => {
         {showComponent === 'weekGroup' && selectedGroup ? (
           <WeekGroup
             setAddWorkout={setAddWorkout}
+            setDeleteWorkout={setDeleteWorkout}
             setSelectedGroup={setSelectedGroup}
             fetching={fetching}
             setFetching={setFetching}
+            fetchingWorkout={fetchingWorkout}
+            setFetchingWorkout={setFetchingWorkout}
             selectedGroup={selectedGroup}
             groups={groups}
             isAdmin={isAdmin}
@@ -183,6 +189,15 @@ export const MainDashboard = () => {
             addWorkout={addWorkout}
             setAddWorkout={setAddWorkout}
             setFetching={setFetching}
+            setFetchingWorkout={setFetchingWorkout}
+          />
+        ) : null}
+        {deleteWorkout.showModal ? (
+          <DeleteWorkout
+            deleteWorkout={deleteWorkout}
+            setDeleteWorkout={setDeleteWorkout}
+            setFetching={setFetching}
+            setFetchingWorkout={setFetchingWorkout}
           />
         ) : null}
       </main>

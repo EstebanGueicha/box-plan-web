@@ -37,9 +37,27 @@ groupsService.removeMember = (data) => {
     })
 }
 
+groupsService.addCoach = (data) => {
+  return api
+    .post('/addCoaches', data)
+    .then((res) => res.data)
+    .catch((err) => {
+      throw err
+    })
+}
+
+groupsService.removeCoach = (data) => {
+  return api
+    .post('/removeCoach', data)
+    .then((res) => res.data)
+    .catch((err) => {
+      throw err
+    })
+}
+
 groupsService.getGroupMembers = (params) => {
   return api
-    .get('/getGroupsMembers', { params })
+    .get('/getGroupMembers', { params })
     .then((res) => res.data)
     .catch((err) => {
       throw err
@@ -55,9 +73,9 @@ groupsService.renameGroup = (data) => {
     })
 }
 
-groupsService.deleteGroup = (data) => {
+groupsService.deleteGroup = (id) => {
   return api
-    .delete('/deleteGroup/BpGroup', data)
+    .delete(`/deleteGroup/${id}`)
     .then((res) => res.data)
     .catch((err) => {
       throw err

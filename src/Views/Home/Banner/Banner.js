@@ -17,6 +17,7 @@ export const Banner = () => {
               </p>
               <Button
                 className="cta"
+                variant="secondary"
                 onClick={() =>
                   window.open(
                     'https://www.youtube.com/watch?v=h3pkeICnRlY&ab_channel=EspacioTecnol%C3%B3gicoRGA',

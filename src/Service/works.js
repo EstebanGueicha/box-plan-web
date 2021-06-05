@@ -28,9 +28,18 @@ worksService.createWorkout = (data) => {
     })
 }
 
-worksService.deleteWorkout = (data) => {
+worksService.updateWorkout = (data) => {
   return api
-    .delete('/createWorkout', data)
+    .post('/updateWorkout', data)
+    .then((res) => res.data)
+    .catch((err) => {
+      throw err
+    })
+}
+
+worksService.deleteWorkout = (id) => {
+  return api
+    .delete(`/deleteWorkout/${id}`)
     .then((res) => res.data)
     .catch((err) => {
       throw err

@@ -6,6 +6,8 @@ import { DeleteGroup } from '../ABMGroup/DeleteGroup'
 import { AddMember } from '../ABMGroup/ABMMembers/AddMember'
 import { DeleteMember } from '../ABMGroup/ABMMembers/DeleteMember'
 import './AllGroups.scss'
+import { AddCoach } from '../ABMGroup/ABMMembers/AddCoach'
+import { DeleteCoach } from '../ABMGroup/ABMMembers/DeleteCoach'
 
 export const AllGroups = (props) => {
   const { groups, isAdmin, setFetching } = props
@@ -17,6 +19,8 @@ export const AllGroups = (props) => {
   })
   const [addMember, setAddMember] = useState({ showModal: false, selectedGroup: null })
   const [deleteMember, setDeleteMember] = useState({ showModal: false, member: null })
+  const [deleteCoach, setDeleteCoach] = useState({ showModal: false, member: null })
+  const [addCoach, setAddCoach] = useState({ showModal: false, selectedGroup: null })
   const [fetchingMembers, setFetchingMembers] = useState(false)
 
   return (
@@ -42,6 +46,8 @@ export const AllGroups = (props) => {
               setDeleteGroupModal={setDeleteGroupModal}
               fetchingMembers={fetchingMembers}
               setFetching={setFetching}
+              setAddCoach={setAddCoach}
+              setDeleteCoach={setDeleteCoach}
             />
           ))
         : null}
@@ -66,6 +72,20 @@ export const AllGroups = (props) => {
         <DeleteMember
           deleteMember={deleteMember}
           setDeleteMember={setDeleteMember}
+          setFetchingMembers={setFetchingMembers}
+        />
+      ) : null}
+      {addCoach.showModal ? (
+        <AddCoach
+          addCoach={addCoach}
+          setAddCoach={setAddCoach}
+          setFetchingMembers={setFetchingMembers}
+        />
+      ) : null}
+      {deleteCoach.showModal ? (
+        <DeleteCoach
+          deleteCoach={deleteCoach}
+          setDeleteCoach={setDeleteCoach}
           setFetchingMembers={setFetchingMembers}
         />
       ) : null}

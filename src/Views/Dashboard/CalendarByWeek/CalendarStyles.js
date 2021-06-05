@@ -3,14 +3,14 @@ import { makeStyles } from '@material-ui/core/styles'
 export const CalendarStyles = makeStyles((theme) => ({
   dayWrapper: {
     position: 'relative',
-    textTransform: 'capitalize'
+    textTransform: 'capitalize',
   },
   day: {
     width: 36,
     height: 36,
     fontSize: theme.typography.caption.fontSize,
     margin: '0 2px',
-    color: 'inherit'
+    color: 'inherit',
   },
   customDayHighlight: {
     position: 'absolute',
@@ -19,26 +19,26 @@ export const CalendarStyles = makeStyles((theme) => ({
     left: '2px',
     right: '2px',
     border: `1px solid ${theme.palette.secondary.main}`,
-    borderRadius: '50%'
+    borderRadius: '50%',
   },
   nonCurrentMonthDay: {
-    color: theme.palette.text.disabled
+    color: theme.palette.text.disabled,
   },
   highlightNonCurrentMonthDay: {
-    color: '#676767'
+    color: '#676767',
   },
   highlight: {
     background: theme.palette.primary.main,
-    color: theme.palette.common.white
+    color: theme.palette.common.white,
   },
   firstHighlight: {
     extend: 'highlight',
     borderTopLeftRadius: '50%',
-    borderBottomLeftRadius: '50%'
+    borderBottomLeftRadius: '50%',
   },
   endHighlight: {
     extend: 'highlight',
     borderTopRightRadius: '50%',
-    borderBottomRightRadius: '50%'
-  }
+    borderBottomRightRadius: '50%',
+  },
 }))

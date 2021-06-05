@@ -1,8 +1,12 @@
+@import "../../Theme/Components/colors.scss";
 .header-container {
     display: flex;
     justify-content: space-between;
 
     .navbar-collapse {
         justify-content: flex-end;
+    }
+    .btn-link {
+        color: $secondary
     }
 }

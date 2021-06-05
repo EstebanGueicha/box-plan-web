@@ -10,25 +10,25 @@ import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline'
 import HighlightOffIcon from '@material-ui/icons/HighlightOff'
 
 const weightLiftingSessionDefault = [
-  { sets: 2, reps: 5, percentage: 50 },
-  { sets: 2, reps: 5, percentage: 60 },
-  { sets: 2, reps: 4, percentage: 70 },
-  { sets: 2, reps: 3, percentage: 75 },
-  { sets: 2, reps: 3, percentage: 80 },
-  { sets: 2, reps: 2, percentage: 85 },
+  { sets: 2, repetitions: 5, percentaje: 50 },
+  { sets: 2, repetitions: 5, percentaje: 60 },
+  { sets: 2, repetitions: 4, percentaje: 70 },
+  { sets: 2, repetitions: 3, percentaje: 75 },
+  { sets: 2, repetitions: 3, percentaje: 80 },
+  { sets: 2, repetitions: 2, percentaje: 85 },
 ]
 
 export const AddWorkout = (props) => {
-  const { addWorkout, setAddWorkout, setFetching } = props
+  const { addWorkout, setAddWorkout, setFetchingWorkout } = props
   const [loading, setLoading] = useState(false)
   const [weightForm, setWeightForm] = useState(false)
   const [weightLiftingSession, setWeightLiftingSession] = useState(weightLiftingSessionDefault)
   // const [weight, setWeight] = useState(0)
-  const { register, errors, handleSubmit, control, watch } = useForm({
+  const { register, errors, handleSubmit, control, watch, setValue } = useForm({
     mode: 'onChange',
     reValidateMode: 'onChange',
   })
-
+  console.log(addWorkout.workout)
   useEffect(() => {
     const category = watch('category')
     if (category && category.description === 'Weightlifting') {
@@ -38,38 +38,62 @@ export const AddWorkout = (props) => {
     }
   }, [watch])
 
+  useEffect(() => {
+    if (addWorkout.update && addWorkout.workout) {
+      setWeightLiftingSession(addWorkout.workout.weightLiftingSession)
+      setValue(
+        'category',
+        WodTypes.find((w) => w.id === addWorkout.workout.wodType),
+      )
+      setValue('workoutTime', addWorkout.workout.workoutTime)
+      setValue('workoutDescription', addWorkout.workout.workoutDescription)
+    }
+  }, [addWorkout.update])
+
   const sendData = async (data) => {
     try {
       setLoading(true)
-      let dayID
-      data.date = addWorkout.item.dateDay
       data.wodType = data.category.id
       delete data.category
-      const result = addWorkout.workoutWeek.find(
-        (w) => new Date(w.date).toUTCString() === new Date(data.date).toUTCString(),
-      )
-      // if (weightForm) {
-      //   if (!weight) {
-      //     setLoading(false)
-      //     return false
-      //   }
-      //   data.weight = weight
-      //   data.weightLifting = await calculateTotalWeight()
-      // }
       if (weightForm) {
-        data.weightLifting = weightLiftingSession
+        data.weightLiftingSession = weightLiftingSession
       }
-      if (!result) {
-        const workoutDay = await worksService.createDay({ date: data.date })
-        dayID = workoutDay.id
+      if (addWorkout.update) {
+        data.workoutID = addWorkout.workout._id
+        console.log(data)
+        await worksService.updateWorkout(data)
       } else {
-        dayID = result.id
+        let dayID
+        data.date = addWorkout.item.dateDay
+
+        const result = addWorkout.workoutWeek.find(
+          (w) => new Date(w.date).toUTCString() === new Date(data.date).toUTCString(),
+        )
+        // if (weightForm) {
+        //   if (!weight) {
+        //     setLoading(false)
+        //     return false
+        //   }
+        //   data.weight = weight
+        //   data.weightLifting = await calculateTotalWeight()
+        // }
+
+        if (!result) {
+          const workoutDay = await worksService.createDay({
+            date: data.date,
+            groupID: addWorkout.selectedGroup.id,
+          })
+          dayID = workoutDay.id
+        } else {
+          dayID = result.id
+        }
+        data.dayID = dayID
+        console.log(data)
+        await worksService.createWorkout(data)
       }
-      data.dayID = dayID
-      console.log(data)
-      await worksService.createWorkout(data)
+
       setLoading(false)
-      setFetching((prev) => !prev)
+      setFetchingWorkout((prev) => !prev)
       setAddWorkout((prev) => ({ ...prev, showModal: false }))
     } catch (err) {
       console.log(err)
@@ -106,7 +130,7 @@ export const AddWorkout = (props) => {
     array.splice(index, 1)
     setWeightLiftingSession(array)
   }
-  console.log(weightLiftingSession)
+
   return (
     <>
       <Modal
@@ -116,7 +140,11 @@ export const AddWorkout = (props) => {
       >
         <Modal.Header>
           <Modal.Title>
-            Agregar workout a {addWorkout.item.description} {addWorkout.item.numberDay}{' '}
+            {addWorkout.update ? 'Actualizar' : 'Agregar'} workout {!addWorkout.update ? 'a' : ''}{' '}
+            {addWorkout.update
+              ? WodTypes.find((w) => w.id === addWorkout.workout.wodType).description
+              : addWorkout.item.description}{' '}
+            {addWorkout.update ? addWorkout.workout.workoutTime : addWorkout.item.numberDay}'{' '}
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
@@ -129,7 +157,7 @@ export const AddWorkout = (props) => {
               <Controller
                 as={Select}
                 options={WodTypes}
-                // defaultValue={product.category || null}
+                defaultValue={null}
                 placeholder="Categoría"
                 getOptionLabel={(option) => option.description}
                 getOptionValue={(option) => option.id}
@@ -188,8 +216,9 @@ export const AddWorkout = (props) => {
                       <Form.Control
                         type="number"
                         placeholder="Sets"
-                        defaultValue={item.sets}
+                        value={item.sets}
                         name="sets"
+                        onChange={handleWeightLiftingSession(index)}
                         className={`form-input ${errors.time ? 'active' : 'disable'}`}
                       />
                     </Col>
@@ -197,17 +226,18 @@ export const AddWorkout = (props) => {
                       <Form.Control
                         type="number"
                         placeholder="Reps"
-                        defaultValue={item.reps}
-                        name="reps"
+                        value={item.repetitions}
+                        name="repetitions"
+                        onChange={handleWeightLiftingSession(index)}
                         className={`form-input ${errors.time ? 'active' : 'disable'}`}
                       />
                     </Col>
                     <Col md={3}>
                       <Form.Control
                         type="number"
-                        name="percentage"
+                        name="percentaje"
                         placeholder="%"
-                        value={item.percentage}
+                        value={item.percentaje}
                         onChange={handleWeightLiftingSession(index)}
                         className={`form-input ${errors.time ? 'active' : 'disable'}`}
                       />
@@ -250,7 +280,7 @@ export const AddWorkout = (props) => {
                     style={{ marginRight: '0.5rem' }}
                   />
                 ) : null}
-                Guardar
+                {addWorkout.update ? 'Actualizar' : 'Guardar'}
               </Button>
             </div>
           </Form>

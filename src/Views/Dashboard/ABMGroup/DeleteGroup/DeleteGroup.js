@@ -9,7 +9,7 @@ export const DeleteGroup = (props) => {
   const deleteThisGroup = async () => {
     try {
       setLoading(true)
-      await groupsService.deleteGroup({ idgroup: selectedGroup.id })
+      await groupsService.deleteGroup(selectedGroup.id)
       setFetching((prev) => !prev)
       setLoading(false)
       setDeleteGroupModal({ showModal: false, selectedGroup: null })

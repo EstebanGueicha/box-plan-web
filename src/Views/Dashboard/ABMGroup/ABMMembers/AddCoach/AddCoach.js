@@ -3,9 +3,9 @@ import AsyncSelect from 'react-select/async'
 import { Button, Modal, Spinner } from 'react-bootstrap'
 import groupsService from '../../../../../Service/groups'
 
-export const AddMember = (props) => {
-  const { addMember, setAddMember, setFetchingMembers } = props
-  const { selectedGroup, showModal } = addMember
+export const AddCoach = (props) => {
+  const { addCoach, setAddCoach, setFetchingMembers } = props
+  const { selectedGroup, showModal } = addCoach
   const [searchMembers, setSearchMembers] = useState([])
   const [members, setMembers] = useState([])
   const [newMembers, setNewMembers] = useState([])
@@ -14,8 +14,8 @@ export const AddMember = (props) => {
   useEffect(() => {
     const getGroupMembers = async (groupId) => {
       try {
-        const { athletes } = await groupsService.getGroupMembers({ groupID: groupId })
-        setMembers(athletes)
+        const { coaches } = await groupsService.getGroupMembers({ groupID: groupId })
+        setMembers(coaches)
       } catch (err) {
         console.log(err)
       }
@@ -27,21 +27,15 @@ export const AddMember = (props) => {
 
   const loadOptions = async (searchValue, callback) => {
     try {
-      if (searchValue) {
-        if (searchValue.length % 2 === 0) {
-          const results = await groupsService.searchMembers({
-            key: searchValue,
-            groupID: selectedGroup.id,
-          })
-          console.log(results)
-          setSearchMembers(results)
-          callback(
-            results.map((member) => ({
-              value: member.id,
-              label: member.name + ' , ' + member.mail,
-            })),
-          )
-        }
+      if (searchValue.length % 2 === 0) {
+        const results = await groupsService.searchMembers({
+          key: searchValue,
+          groupID: selectedGroup.id,
+        })
+        setSearchMembers(results)
+        callback(
+          results.map((member) => ({ value: member.id, label: member.name + ' , ' + member.mail })),
+        )
       }
     } catch (err) {
       console.log(err)
@@ -49,8 +43,6 @@ export const AddMember = (props) => {
   }
 
   const membersHasChanged = (items) => {
-    console.log(items)
-    console.log('members', members)
     const newItems = items.filter((item) => !members.some((member) => item.value === member.id))
     setNewMembers(newItems)
   }
@@ -59,9 +51,9 @@ export const AddMember = (props) => {
     try {
       setLoading(true)
       const members = newMembers.map((m) => m.value)
-      await groupsService.addMembers({ groupID: selectedGroup.id, members })
+      await groupsService.addCoach({ groupID: selectedGroup.id, coaches: members })
       setLoading(false)
-      setAddMember({ showModal: false, selectedGroup: null })
+      setAddCoach({ showModal: false, selectedGroup: null })
       setFetchingMembers((prev) => !prev)
     } catch (err) {
       console.log(err)
@@ -71,16 +63,16 @@ export const AddMember = (props) => {
     <>
       <Modal
         show={showModal}
-        onHide={() => setAddMember({ showModal: false, selectedGroup: null })}
+        onHide={() => setAddCoach({ showModal: false, selectedGroup: null })}
         centered
       >
-        <Modal.Header closeButton>
-          <Modal.Title>Agregar miembro</Modal.Title>
+        <Modal.Header>
+          <Modal.Title>Agregar Coach</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <AsyncSelect
             options={searchMembers}
-            placeholder="Nombre del atleta"
+            placeholder="Nombre del coach"
             isMulti
             loadOptions={loadOptions}
             onChange={(opt) => membersHasChanged(opt)}
@@ -89,7 +81,7 @@ export const AddMember = (props) => {
         <Modal.Footer>
           <Button
             variant="outline-secondary"
-            onClick={() => setAddMember({ showModal: false, selectedGroup: null })}
+            onClick={() => setAddCoach({ showModal: false, selectedGroup: null })}
             disabled={loading}
           >
             Cerrar
