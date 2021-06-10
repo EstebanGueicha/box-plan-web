@@ -1,5 +1,5 @@
 .home-container {
-    .wrapper{
+    .wrapper {
         height: 100vh;
         overflow-x: hidden;
         overflow-y: auto;
@@ -23,14 +23,44 @@
             transform: translateZ(-1px) scale(1.6);
             background-size: 100%;
         }
-          
+
         .bg1::after {
             background-image: url("../../Images/home/crossfitBackground.jpg");
             background-size: cover;
             background-position: center;
             margin-bottom: 5rem;
         }
-          
     }
-    
+    @media (max-width: 992px) {
+        .wrapper {
+            height: initial;
+            overflow-x: initial;
+            overflow-y: initial;
+            perspective: initial;
+           
+            .section {
+                position: initial;
+                height: initial;
+                display: initial;
+                align-items: initial;
+                justify-content: initial;               
+            }
+            .parallax::after {
+                content: "";
+                position: initial;
+                top: initial;
+                right: initial;
+                bottom: initial;
+                left: initial;
+                transform: initial;
+                background-size: initial;
+            }
+            .bg1::after {
+                background-image: initial;
+                background-size: initial;
+                background-position: initial;
+                margin-bottom: 0;
+            }
+        }
+    }
 }

@@ -40,6 +40,11 @@
       }
     }
   }
+  @media (max-width: 992px) {
+    .grops-container {
+       flex-direction: column;
+    }
+}
   .calendar-card {
     display: flex;
     justify-content: center;

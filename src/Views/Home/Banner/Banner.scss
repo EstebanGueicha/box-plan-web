@@ -10,6 +10,14 @@
         color: white;
     }
     .cta {
-        color: white
+        color: white;
+    }
+}
+@media (max-width: 992px) {
+    .banner-container {
+        background-image: url("../../../Images/home/crossfitBackground.jpg");
+        background-size: cover;
+        background-position: center;
+        margin-bottom: 0rem;
     }
 }

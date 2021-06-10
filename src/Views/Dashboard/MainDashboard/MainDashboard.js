@@ -27,7 +27,7 @@ import { AllGroups } from '../AllGroups'
 import { Profile } from '../Profile'
 import { DeleteWorkout } from '../ABMWorkout/DeleteWorks'
 
-const drawerWidth = 260
+const drawerWidth = 270
 
 const useStyles = makeStyles((theme) => ({
   root: {},
@@ -37,7 +37,10 @@ const useStyles = makeStyles((theme) => ({
     whiteSpace: 'nowrap',
   },
   drawerOpen: {
-    background: 'rgba(0, 0, 0, 0.5)',
+    background: 'rgba(0, 0, 0, 0.9)',
+    [theme.breakpoints.up('sm')]: {
+      background: 'rgba(0, 0, 0, 0.5)',
+    },
     boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
     width: drawerWidth,
     transition: theme.transitions.create('width', {
@@ -53,7 +56,7 @@ const useStyles = makeStyles((theme) => ({
       duration: theme.transitions.duration.leavingScreen,
     }),
     overflowX: 'hidden',
-    width: theme.spacing(4),
+    width: theme.spacing(5),
     [theme.breakpoints.up('sm')]: {
       width: theme.spacing(7),
     },
@@ -62,7 +65,10 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'flex-end',
-    padding: theme.spacing(0, 1),
+    padding: theme.spacing(0, 0),
+    [theme.breakpoints.up('sm')]: {
+      padding: theme.spacing(0, 1),
+    },
     // necessary for content to be below app bar
     ...theme.mixins.toolbar,
   },
@@ -138,29 +144,49 @@ export const MainDashboard = () => {
           </IconButton>
         </div>
         <List>
-          <ListItem button onClick={() => setShowComponent('weekGroup')} title="IR A HOME">
+          <ListItem
+            className="mainDashboardTitle"
+            button
+            onClick={() => setShowComponent('weekGroup')}
+            title="IR A HOME"
+          >
             <ListItemIcon>
               <HomeIcon color="secondary" />
             </ListItemIcon>
-            <ListItemText color="secondary" primary="IR A HOME" />
+            <ListItemText style={{ color: '#F48636' }} primary="IR A HOME" />
           </ListItem>
-          <ListItem button onClick={() => setShowComponent('allGroups')} title="ADMINISTRAR GRUPOS">
+          <ListItem
+            className="mainDashboardTitle"
+            button
+            onClick={() => setShowComponent('allGroups')}
+            title="ADMINISTRAR GRUPOS"
+          >
             <ListItemIcon>
               <PeopleOutlineIcon color="secondary" />
             </ListItemIcon>
-            <ListItemText color="secondary" primary="ADMINISTRAR GRUPOS" />
+            <ListItemText style={{ color: '#F48636' }} primary="ADMINISTRAR GRUPOS" />
           </ListItem>
-          <ListItem button onClick={() => setShowComponent('profile')} title="ADMINISTRAR PERFIL">
+          <ListItem
+            className="mainDashboardTitle"
+            button
+            onClick={() => setShowComponent('profile')}
+            title="ADMINISTRAR PERFIL"
+          >
             <ListItemIcon>
               <PersonOutlineIcon color="secondary" />
             </ListItemIcon>
-            <ListItemText color="secondary" primary="ADMINISTRAR PERFIL" />
+            <ListItemText style={{ color: '#F48636' }} primary="ADMINISTRAR PERFIL" />
           </ListItem>
-          <ListItem button onClick={() => logout()} title="CERRAR SESIÓN">
+          <ListItem
+            className="mainDashboardTitle"
+            button
+            onClick={() => logout()}
+            title="CERRAR SESIÓN"
+          >
             <ListItemIcon>
               <ExitToAppIcon color="secondary" />
             </ListItemIcon>
-            <ListItemText color="secondary" primary="CERRAR SESIÓN" />
+            <ListItemText style={{ color: '#F48636' }} primary="CERRAR SESIÓN" />
           </ListItem>
         </List>
       </Drawer>

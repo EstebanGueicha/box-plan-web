@@ -1,1 +1,10 @@
 @import "../../../Theme/Components/colors.scss";
+
+
+
+@media (max-width: 992px) {
+    .mainDashboardTitle {
+        padding-left: 8px !important;
+    }
+}
+

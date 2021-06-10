@@ -54,3 +54,13 @@
         }
     }
 }
+
+@media (max-width: 992px) {
+    .select-user-type {
+        flex-direction: column;
+        .buttonBase {
+            width: 100%;
+            height: 50vh;
+        }
+    }
+}

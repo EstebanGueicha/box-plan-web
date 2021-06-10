@@ -30,4 +30,16 @@
             margin-bottom: 2rem;
         }
     }
+
+    @media (max-width: 992px) {
+        .card {
+            margin: 1rem;
+            border-radius: 6px;
+            padding: 3rem 1rem;
+            .main-div {
+                padding: 2rem 2rem;
+            }
+        }
+    }
+    
 }
