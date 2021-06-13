@@ -31,7 +31,10 @@ export const DeleteWorkout = (props) => {
       >
         <Modal.Header closeButton>
           <Modal.Title>
-            Eliminar Workout {WodTypes.find((w) => w.id === workout.wodType).description}{' '}
+            Eliminar Workout{' '}
+            {workout.title
+              ? workout.title
+              : WodTypes.find((w) => w.id === workout.wodType).description}
             {workout.workoutTime}'
           </Modal.Title>
         </Modal.Header>

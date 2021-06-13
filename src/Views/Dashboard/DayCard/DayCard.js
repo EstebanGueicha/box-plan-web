@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react'
-import { Accordion, Card, Col, Dropdown, Row } from 'react-bootstrap'
+import { Accordion, Button, Card, Col, Dropdown, Row } from 'react-bootstrap'
 import { ArrowChange } from '../../../Components/ArrowChange'
 import { WodTypes } from '../../../Utils/Constants'
 import EditIcon from '@material-ui/icons/Edit'
+import TimerIcon from '@material-ui/icons/Timer'
 import './DayCard.scss'
 import { Icon, IconButton } from '@material-ui/core'
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever'
+import FitnessCenterIcon from '@material-ui/icons/FitnessCenter'
 
 export const DayCard = (props) => {
   const {
@@ -17,6 +19,8 @@ export const DayCard = (props) => {
     viewStyle,
     selectedGroup,
     setDeleteWorkout,
+    setViewStyle,
+    setweigthCalculate,
   } = props
   const [dayWorkouts, setDayWorkouts] = useState(null)
   const [showIcon, setShowIcon] = useState('')
@@ -73,8 +77,18 @@ export const DayCard = (props) => {
               </>
             ) : (
               <>
-                <Dropdown.Item>Agregar mis tiempos</Dropdown.Item>
-                <Dropdown.Item>Calcular peso</Dropdown.Item>
+                {showIcon === 'time' ? (
+                  <Dropdown.Item onClick={() => setShowIcon('')}>Cancelar</Dropdown.Item>
+                ) : (
+                  <Dropdown.Item onClick={() => setShowIcon('time')}>
+                    Agregar mis tiempos
+                  </Dropdown.Item>
+                )}
+                {showIcon === 'weight' ? (
+                  <Dropdown.Item onClick={() => setShowIcon('')}>Cancelar</Dropdown.Item>
+                ) : (
+                  <Dropdown.Item onClick={() => setShowIcon('weight')}>Calcular peso</Dropdown.Item>
+                )}
               </>
             )}
           </Dropdown.Menu>
@@ -94,8 +108,9 @@ export const DayCard = (props) => {
                       </div>
                       <div className="cat-time-container">
                         <p className="category">
-                          {' '}
-                          {WodTypes.find((w) => w.id === workout.wodType).description}
+                          {workout.title
+                            ? workout.title
+                            : WodTypes.find((w) => w.id === workout.wodType).description}
                         </p>
                         <p className="time"> {workout.workoutTime}'</p>
                       </div>
@@ -186,6 +201,31 @@ export const DayCard = (props) => {
                         </IconButton>
                       </Card.Footer>
                     ) : null}
+                    {showIcon === 'time' ? (
+                      <Card.Footer>
+                        <IconButton className="icon-button" title="Agregar mis tiempos">
+                          <TimerIcon />
+                        </IconButton>
+                      </Card.Footer>
+                    ) : null}
+                    {showIcon === 'weight' &&
+                    workout.weightLiftingSession &&
+                    workout.weightLiftingSession.length ? (
+                      <Card.Footer>
+                        <IconButton
+                          className="icon-button"
+                          title="Calcular Peso"
+                          onClick={() =>
+                            setweigthCalculate({
+                              showModal: true,
+                              weightLiftingSession: workout.weightLiftingSession,
+                            })
+                          }
+                        >
+                          <FitnessCenterIcon />
+                        </IconButton>
+                      </Card.Footer>
+                    ) : null}
                   </Card>
                 </Col>
               ) : (
@@ -195,7 +235,9 @@ export const DayCard = (props) => {
                       <Card>
                         <Accordion.Toggle as={Card.Header} eventKey="0">
                           <p className="category">
-                            {WodTypes.find((w) => w.id === workout.wodType).description}
+                            {workout.title
+                              ? workout.title
+                              : WodTypes.find((w) => w.id === workout.wodType).description}
                           </p>
                           <div className="arrow-time-container">
                             <p className="time"> {workout.workoutTime}'</p>
@@ -234,11 +276,39 @@ export const DayCard = (props) => {
                                 <DeleteForeverIcon />
                               </IconButton>
                             ) : null}
+                            {showIcon === 'time' ? (
+                              <IconButton className="icon-button" title="Agregar mis tiempos">
+                                <TimerIcon />
+                              </IconButton>
+                            ) : null}
+                            {showIcon === 'weight' &&
+                            workout.weightLiftingSession &&
+                            workout.weightLiftingSession.length ? (
+                              <IconButton
+                                className="icon-button"
+                                title="Calcular Peso"
+                                onClick={() =>
+                                  setweigthCalculate({
+                                    showModal: true,
+                                    weightLiftingSession: workout.weightLiftingSession,
+                                  })
+                                }
+                              >
+                                <FitnessCenterIcon />
+                              </IconButton>
+                            ) : null}
                             <ArrowChange eventKey="0" />
                           </div>
                         </Accordion.Toggle>
                         <Accordion.Collapse eventKey="0">
-                          <Card.Body>{workout.workoutDescription}</Card.Body>
+                          <Card.Body>
+                            {workout.workoutDescription}{' '}
+                            {workout.wodType === 2 ? (
+                              <Button variant="link" onClick={() => setViewStyle(true)}>
+                                Ver Detalle
+                              </Button>
+                            ) : null}
+                          </Card.Body>
                         </Accordion.Collapse>
                       </Card>
                     </Accordion>

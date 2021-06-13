@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from 'react'
 import './Profile.scss'
-import { Card, Col, Container, Image, Row } from 'react-bootstrap'
+import { Button, Card, Col, Container, Image, Row } from 'react-bootstrap'
 import { shallowEqual, useSelector } from 'react-redux'
 import groupsService from '../../../Service/groups'
+import { useHistory, useParams } from 'react-router-dom'
 
 export const Profile = () => {
   const { name, mail, avatar, id } = useSelector((state) => state.user, shallowEqual) || ''
+  const { type } = useParams()
   const [groupsCoach, setGroupsCoach] = useState([])
   const [groupsAthleta, setGroupsAthleta] = useState([])
+  const history = useHistory()
 
   useEffect(() => {
     const getGroups = async () => {
@@ -48,8 +51,15 @@ export const Profile = () => {
           </div>
           <div className="group-container">
             <div className="coach-container">
+              <Button
+                variant="outline-primary"
+                disabled={type === 'coach'}
+                onClick={() => history.push('/dashboard/coach')}
+              >
+                Modo Coach
+              </Button>
               <p className="coach-title">GRUPOS EN LOS QUE SOY COACH</p>
-              <Row>
+              <Row className="row-profile">
                 {groupsCoach.length
                   ? groupsCoach.map((item, index) => (
                       <Col md={6} key={index}>
@@ -60,8 +70,15 @@ export const Profile = () => {
               </Row>
             </div>
             <div className="coach-container">
+              <Button
+                variant="outline-primary"
+                disabled={type === 'athlete'}
+                onClick={() => history.push('/dashboard/athlete')}
+              >
+                Modo Atleta
+              </Button>
               <p className="coach-title">GRUPOS EN LOS QUE SOY ATLETA</p>
-              <Row>
+              <Row className="row-profile">
                 {groupsAthleta.length
                   ? groupsAthleta.map((item, index) => (
                       <Col md={6} key={index}>

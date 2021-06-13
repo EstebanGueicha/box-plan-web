@@ -18,6 +18,7 @@ export const Dashboard = ({ routes }) => {
     const getUser = async () => {
       try {
         const { displayName, email, photoURL } = user
+
         const userData = await userService.loginWithSocialCredentials({
           name: displayName,
           mail: email,

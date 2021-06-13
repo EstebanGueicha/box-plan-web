@@ -19,6 +19,7 @@ export const WeekGroup = (props) => {
     setShowComponent,
     fetchingWorkout,
     setDeleteWorkout,
+    setweigthCalculate,
   } = props
   const [startDate, setStartDate] = useState(null)
   const [endDate, setEndDate] = useState(null)
@@ -117,11 +118,13 @@ export const WeekGroup = (props) => {
               item={days[selectedDay]}
               setAddWorkout={setAddWorkout}
               setDeleteWorkout={setDeleteWorkout}
+              setweigthCalculate={setweigthCalculate}
               workoutWeek={workoutWeek}
               startDate={startDate}
               isAdmin={isAdmin}
               viewStyle={viewStyle}
               selectedGroup={selectedGroup}
+              setViewStyle={setViewStyle}
             />
           </Col>
         ) : Object.keys(days).length ? (
@@ -131,11 +134,13 @@ export const WeekGroup = (props) => {
                 item={item}
                 setAddWorkout={setAddWorkout}
                 setDeleteWorkout={setDeleteWorkout}
+                setweigthCalculate={setweigthCalculate}
                 workoutWeek={workoutWeek}
                 startDate={startDate}
                 isAdmin={isAdmin}
                 viewStyle={viewStyle}
                 selectedGroup={selectedGroup}
+                setViewStyle={setViewStyle}
               />
             </Col>
           ))

@@ -1,0 +1,1 @@
+export { WeigthCalculate } from './WeigthCalculate'

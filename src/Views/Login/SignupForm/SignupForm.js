@@ -34,7 +34,9 @@ export const SignupForm = (props) => {
     try {
       await authService.signup(email, password, firstName, lastName)
       history.push('/dashboard')
-      setLoading(false)
+      return () => {
+        setLoading(false)
+      }
     } catch (err) {
       console.log(err)
       alert('Credenciales invalidas')

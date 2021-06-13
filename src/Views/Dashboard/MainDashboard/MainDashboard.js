@@ -26,6 +26,7 @@ import './MainDashboard.scss'
 import { AllGroups } from '../AllGroups'
 import { Profile } from '../Profile'
 import { DeleteWorkout } from '../ABMWorkout/DeleteWorks'
+import { WeigthCalculate } from '../ABMWorkout/WeigthCalculate'
 
 const drawerWidth = 270
 
@@ -90,6 +91,7 @@ export const MainDashboard = () => {
 
   const [addWorkout, setAddWorkout] = useState({ showModal: false })
   const [deleteWorkout, setDeleteWorkout] = useState({ showModal: false })
+  const [weigthCalculate, setweigthCalculate] = useState({ showModal: false })
 
   const [selectedGroup, setSelectedGroup] = useState(null)
 
@@ -194,6 +196,7 @@ export const MainDashboard = () => {
         {showComponent === 'weekGroup' && selectedGroup ? (
           <WeekGroup
             setAddWorkout={setAddWorkout}
+            setweigthCalculate={setweigthCalculate}
             setDeleteWorkout={setDeleteWorkout}
             setSelectedGroup={setSelectedGroup}
             fetching={fetching}
@@ -216,6 +219,12 @@ export const MainDashboard = () => {
             setAddWorkout={setAddWorkout}
             setFetching={setFetching}
             setFetchingWorkout={setFetchingWorkout}
+          />
+        ) : null}
+        {weigthCalculate.showModal ? (
+          <WeigthCalculate
+            weigthCalculate={weigthCalculate}
+            setweigthCalculate={setweigthCalculate}
           />
         ) : null}
         {deleteWorkout.showModal ? (

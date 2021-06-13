@@ -10,12 +10,12 @@ import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline'
 import HighlightOffIcon from '@material-ui/icons/HighlightOff'
 
 const weightLiftingSessionDefault = [
-  { sets: 2, repetitions: 5, percentaje: 50 },
-  { sets: 2, repetitions: 5, percentaje: 60 },
-  { sets: 2, repetitions: 4, percentaje: 70 },
-  { sets: 2, repetitions: 3, percentaje: 75 },
-  { sets: 2, repetitions: 3, percentaje: 80 },
-  { sets: 2, repetitions: 2, percentaje: 85 },
+  { sets: '2', repetitions: '5', percentaje: 50 },
+  { sets: '2', repetitions: '5', percentaje: 60 },
+  { sets: '2', repetitions: '4', percentaje: 70 },
+  { sets: '2', repetitions: '3', percentaje: 75 },
+  { sets: '2', repetitions: '3', percentaje: 80 },
+  { sets: '2', repetitions: '2', percentaje: 85 },
 ]
 
 export const AddWorkout = (props) => {
@@ -28,7 +28,7 @@ export const AddWorkout = (props) => {
     mode: 'onChange',
     reValidateMode: 'onChange',
   })
-  console.log(addWorkout.workout)
+
   useEffect(() => {
     const category = watch('category')
     if (category && category.description === 'Weightlifting') {
@@ -107,7 +107,10 @@ export const AddWorkout = (props) => {
 
   const handleWeightLiftingSession = (index) => (e) => {
     const newArr = [...weightLiftingSession]
-    newArr[index] = { ...newArr[index], [e.target.name]: parseInt(e.target.value) }
+    newArr[index] = {
+      ...newArr[index],
+      [e.target.name]: e.target.name === 'percentaje' ? parseInt(e.target.value) : e.target.value,
+    }
     setWeightLiftingSession(newArr)
   }
 
@@ -122,7 +125,7 @@ export const AddWorkout = (props) => {
 
   const addColWeightLifting = (index) => {
     const array = [...weightLiftingSession]
-    array.splice(index + 1, 0, { sets: 0, reps: 0, percentage: 0 })
+    array.splice(index + 1, 0, { sets: '0', repetitions: '0', percentaje: 0 })
     setWeightLiftingSession(array)
   }
   const deleteColWeightLifting = (index) => {
@@ -142,9 +145,10 @@ export const AddWorkout = (props) => {
           <Modal.Title>
             {addWorkout.update ? 'Actualizar' : 'Agregar'} workout {!addWorkout.update ? 'a' : ''}{' '}
             {addWorkout.update
-              ? WodTypes.find((w) => w.id === addWorkout.workout.wodType).description
+              ? addWorkout.workout.title
+                ? addWorkout.workout.title
+                : WodTypes.find((w) => w.id === addWorkout.workout.wodType).description
               : addWorkout.item.description}{' '}
-            {addWorkout.update ? addWorkout.workout.workoutTime : addWorkout.item.numberDay}'{' '}
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
@@ -154,6 +158,13 @@ export const AddWorkout = (props) => {
             })}
           >
             <Form.Group controlId="ProductCategory">
+              <Form.Control
+                ref={register({ required: true })}
+                type="text"
+                placeholder="Titulo"
+                name="title"
+                className={`form-input ${errors.title ? 'active' : 'disable'}`}
+              />
               <Controller
                 as={Select}
                 options={WodTypes}
@@ -214,7 +225,7 @@ export const AddWorkout = (props) => {
                     </Col>
                     <Col md={3}>
                       <Form.Control
-                        type="number"
+                        type="text"
                         placeholder="Sets"
                         value={item.sets}
                         name="sets"
@@ -224,7 +235,7 @@ export const AddWorkout = (props) => {
                     </Col>
                     <Col md={3}>
                       <Form.Control
-                        type="number"
+                        type="text"
                         placeholder="Reps"
                         value={item.repetitions}
                         name="repetitions"

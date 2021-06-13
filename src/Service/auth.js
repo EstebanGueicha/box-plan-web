@@ -1,3 +1,4 @@
+/* eslint-disable no-useless-catch */
 import Cookies from 'js-cookie'
 import firebase from './firebaseConfig'
 const authService = {}
@@ -49,19 +50,15 @@ authService.handleLogin = (email, password) => {
     })
 }
 
-authService.signup = (email, password, firstName, lastName) => {
-  firebase.auth().languageCode = 'es_ES'
-  return firebase
-    .auth()
-    .createUserWithEmailAndPassword(email, password)
-    .then((data) => {
-      const user = firebase.auth().currentUser
-      user.updateProfile({ displayName: firstName + ' ' + lastName })
-      return data
-    })
-    .catch((err) => {
-      throw err
-    })
+authService.signup = async (email, password, firstName, lastName) => {
+  try {
+    firebase.auth().languageCode = 'es_ES'
+    await firebase.auth().createUserWithEmailAndPassword(email, password)
+    const user = await firebase.auth().currentUser
+    await user.updateProfile({ displayName: `${firstName} ${lastName}` })
+  } catch (err) {
+    throw err
+  }
 }
 
 authService.getToken = () => {

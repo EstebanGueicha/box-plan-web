@@ -29,7 +29,7 @@
       }
       .initials {
         font-size: 4rem;
-        line-height: 2rem;
+        line-height: 10rem;
         color: #fff;
         font-weight: bold;
       }
@@ -50,11 +50,19 @@
     .group-container {
       display: flex;
       flex-direction: row;
-      justify-content: space-between;
+      justify-content: space-around;
       .coach-container {
         display: flex;
         flex-direction: column;
         justify-content: flex-start;
+        align-items: center;
+        .row-profile {
+          width: 100%;
+        }
+        .btn-outline-primary {
+          width: 50%;
+          margin-bottom: 2rem;
+        }
       }
       .coach-title {
         font-family: "Staatliches";
@@ -67,6 +75,7 @@
           font-weight: bold;
           margin-bottom: 0.5rem;
           font-size: 1.2rem;
+          text-align: center;
       }
     }
   }
