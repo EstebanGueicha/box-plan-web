@@ -6,6 +6,7 @@ import TimerIcon from '@material-ui/icons/Timer'
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever'
 import FitnessCenterIcon from '@material-ui/icons/FitnessCenter'
 import { ArrowChange } from '../ArrowChange'
+import { Alphabet } from '../../Utils/Constants'
 
 export const BigCardWorkout = ({
   workout,
@@ -19,11 +20,19 @@ export const BigCardWorkout = ({
   setweigthCalculate,
   setAddTime,
 }) => {
+  const getWord = (index) => {
+    const res = Alphabet[index]
+    if (!res) {
+      return index + 1
+    } else {
+      return res.word
+    }
+  }
   return (
     <Card className="view-card-container">
       <Card.Body>
         <div className="cat-time-container">
-          <p className="title">{workout.index + 1}. CATEGORIA</p>
+          <p className="title">{getWord(workout.index)}. CATEGORIA</p>
           <p className="title">TIEMPO</p>
         </div>
         <div className="cat-time-container">

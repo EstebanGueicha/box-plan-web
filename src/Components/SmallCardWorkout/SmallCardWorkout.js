@@ -20,7 +20,6 @@ export const SmallCardWorkout = ({
   setweigthCalculate,
   setViewStyle,
   setAddTime,
-  indexItem,
 }) => {
   const getWord = (index) => {
     const res = Alphabet[index]
