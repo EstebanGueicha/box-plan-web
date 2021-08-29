@@ -18,13 +18,12 @@ export const BigCardWorkout = ({
   setDeleteWorkout,
   setweigthCalculate,
   setAddTime,
-  indexItem,
 }) => {
   return (
     <Card className="view-card-container">
       <Card.Body>
         <div className="cat-time-container">
-          <p className="title">{indexItem + 1}. CATEGORIA</p>
+          <p className="title">{workout.index + 1}. CATEGORIA</p>
           <p className="title">TIEMPO</p>
         </div>
         <div className="cat-time-container">

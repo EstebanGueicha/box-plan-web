@@ -36,12 +36,13 @@ export const DayCard = (props) => {
         (w) => new Date(w.date).toUTCString() === new Date(item.dateDay).toUTCString(),
       )
       if (result) {
-        setWorkouts(result.workouts)
+        const sortWorkout = result.workouts.sort((a, b) => a.index - b.index)
+        setWorkouts(sortWorkout)
       }
     }
   }, [workoutWeek, item, startDate])
 
-  const SortableItemBig = SortableElement(({ workout, index, itemIndex }) => (
+  const SortableItemBig = SortableElement(({ workout, index }) => (
     <Col md={6} key={index} style={showIcon === 'move' ? { cursor: 'move' } : {}}>
       <BigCardWorkout
         workout={workout}
@@ -50,7 +51,6 @@ export const DayCard = (props) => {
         setAddWorkout={setAddWorkout}
         workoutWeek={workoutWeek}
         item={item}
-        indexItem={itemIndex}
         selectedGroup={selectedGroup}
         setDeleteWorkout={setDeleteWorkout}
         setweigthCalculate={setweigthCalculate}
@@ -59,7 +59,7 @@ export const DayCard = (props) => {
     </Col>
   ))
 
-  const SortableItemSmall = SortableElement(({ workout, index, itemIndex }) => (
+  const SortableItemSmall = SortableElement(({ workout, index }) => (
     <li className="sortable-list-small" style={showIcon === 'move' ? { cursor: 'move' } : {}}>
       <SmallCardWorkout
         workout={workout}
@@ -68,7 +68,6 @@ export const DayCard = (props) => {
         setAddWorkout={setAddWorkout}
         workoutWeek={workoutWeek}
         item={item}
-        indexItem={itemIndex}
         selectedGroup={selectedGroup}
         setDeleteWorkout={setDeleteWorkout}
         setweigthCalculate={setweigthCalculate}
@@ -86,7 +85,6 @@ export const DayCard = (props) => {
             key={index}
             workout={workout}
             index={index}
-            itemIndex={index}
             disabled={showIcon !== 'move' || loading}
           />
         ))}
@@ -101,7 +99,6 @@ export const DayCard = (props) => {
           <SortableItemSmall
             key={`item-${index}`}
             index={index}
-            itemIndex={index}
             workout={value}
             disabled={showIcon !== 'move' || loading}
           />
@@ -136,7 +133,6 @@ export const DayCard = (props) => {
     })
     setWorkouts(switchIndex)
   }
-
   return (
     <Card className={`day-card ${viewStyle}`}>
       <Card.Title>

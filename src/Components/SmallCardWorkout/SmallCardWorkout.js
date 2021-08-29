@@ -6,6 +6,7 @@ import TimerIcon from '@material-ui/icons/Timer'
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever'
 import FitnessCenterIcon from '@material-ui/icons/FitnessCenter'
 import { ArrowChange } from '../ArrowChange'
+import { Alphabet } from '../../Utils/Constants'
 
 export const SmallCardWorkout = ({
   workout,
@@ -21,13 +22,21 @@ export const SmallCardWorkout = ({
   setAddTime,
   indexItem,
 }) => {
+  const getWord = (index) => {
+    const res = Alphabet[index]
+    if (!res) {
+      return index + 1
+    } else {
+      return res.word
+    }
+  }
   return (
     <div className="workout-container">
       <Accordion>
         <Card>
           <Accordion.Toggle as={Card.Header} eventKey="0">
             <p className="category">
-              {indexItem + 1}.{' '}
+              {getWord(workout.index)}.{' '}
               {workout.title
                 ? workout.title
                 : WodTypes.find((w) => w.id === workout.wodType).description}
