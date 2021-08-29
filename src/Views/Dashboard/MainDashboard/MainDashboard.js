@@ -27,6 +27,7 @@ import { AllGroups } from '../AllGroups'
 import { Profile } from '../Profile'
 import { DeleteWorkout } from '../ABMWorkout/DeleteWorks'
 import { WeigthCalculate } from '../ABMWorkout/WeigthCalculate'
+import { AddTime } from '../ABMWorkout/AddTime'
 
 const drawerWidth = 270
 
@@ -90,6 +91,7 @@ export const MainDashboard = () => {
   const [showComponent, setShowComponent] = useState('weekGroup')
 
   const [addWorkout, setAddWorkout] = useState({ showModal: false })
+  const [addTime, setAddTime] = useState({ showModal: false })
   const [deleteWorkout, setDeleteWorkout] = useState({ showModal: false })
   const [weigthCalculate, setweigthCalculate] = useState({ showModal: false })
 
@@ -207,11 +209,20 @@ export const MainDashboard = () => {
             groups={groups}
             isAdmin={isAdmin}
             setShowComponent={() => setShowComponent('allGroups')}
+            setAddTime={setAddTime}
           />
         ) : showComponent === 'allGroups' ? (
           <AllGroups groups={groups} isAdmin={isAdmin} setFetching={setFetching} />
         ) : showComponent === 'profile' ? (
           <Profile />
+        ) : null}
+        {addTime.showModal ? (
+          <AddTime
+            addTime={addTime}
+            setAddTime={setAddTime}
+            setFetching={setFetching}
+            setFetchingWorkout={setFetchingWorkout}
+          />
         ) : null}
         {addWorkout.showModal ? (
           <AddWorkout

@@ -1,0 +1,1 @@
+export { BigCardWorkout } from './BigCardWorkout'

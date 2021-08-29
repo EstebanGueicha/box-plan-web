@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react'
-import { Accordion, Button, Card, Col, Dropdown, Row } from 'react-bootstrap'
-import { ArrowChange } from '../../../Components/ArrowChange'
+import { Card, Col, Dropdown, Row } from 'react-bootstrap'
 import { WodTypes } from '../../../Utils/Constants'
 import EditIcon from '@material-ui/icons/Edit'
-import TimerIcon from '@material-ui/icons/Timer'
 import './DayCard.scss'
-import { Icon, IconButton } from '@material-ui/core'
-import DeleteForeverIcon from '@material-ui/icons/DeleteForever'
-import FitnessCenterIcon from '@material-ui/icons/FitnessCenter'
+import { Icon } from '@material-ui/core'
+import { SortableContainer, SortableElement } from 'react-sortable-hoc'
+import arrayMove from 'array-move'
+import { SmallCardWorkout } from '../../../Components/SmallCardWorkout'
+import { BigCardWorkout } from '../../../Components/BigCardWorkout'
+import worksService from '../../../Service/works'
 
 export const DayCard = (props) => {
   const {
@@ -21,21 +22,120 @@ export const DayCard = (props) => {
     setDeleteWorkout,
     setViewStyle,
     setweigthCalculate,
+    setAddTime,
   } = props
-  const [dayWorkouts, setDayWorkouts] = useState(null)
+
+  const [workouts, setWorkouts] = useState([])
   const [showIcon, setShowIcon] = useState('')
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
-    setDayWorkouts(null)
+    setWorkouts(null)
     if (workoutWeek && workoutWeek.length) {
       const result = workoutWeek.find(
         (w) => new Date(w.date).toUTCString() === new Date(item.dateDay).toUTCString(),
       )
       if (result) {
-        setDayWorkouts(result)
+        setWorkouts(result.workouts)
       }
     }
   }, [workoutWeek, item, startDate])
+
+  const SortableItemBig = SortableElement(({ workout, index, itemIndex }) => (
+    <Col md={6} key={index} style={showIcon === 'move' ? { cursor: 'move' } : {}}>
+      <BigCardWorkout
+        workout={workout}
+        WodTypes={WodTypes}
+        showIcon={showIcon}
+        setAddWorkout={setAddWorkout}
+        workoutWeek={workoutWeek}
+        item={item}
+        indexItem={itemIndex}
+        selectedGroup={selectedGroup}
+        setDeleteWorkout={setDeleteWorkout}
+        setweigthCalculate={setweigthCalculate}
+        setAddTime={setAddTime}
+      />
+    </Col>
+  ))
+
+  const SortableItemSmall = SortableElement(({ workout, index, itemIndex }) => (
+    <li className="sortable-list-small" style={showIcon === 'move' ? { cursor: 'move' } : {}}>
+      <SmallCardWorkout
+        workout={workout}
+        WodTypes={WodTypes}
+        showIcon={showIcon}
+        setAddWorkout={setAddWorkout}
+        workoutWeek={workoutWeek}
+        item={item}
+        indexItem={itemIndex}
+        selectedGroup={selectedGroup}
+        setDeleteWorkout={setDeleteWorkout}
+        setweigthCalculate={setweigthCalculate}
+        setViewStyle={setViewStyle}
+        setAddTime={setAddTime}
+      />
+    </li>
+  ))
+
+  const SortableListBig = SortableContainer(({ dayWorkouts }) => {
+    return (
+      <Row>
+        {dayWorkouts.map((workout, index) => (
+          <SortableItemBig
+            key={index}
+            workout={workout}
+            index={index}
+            itemIndex={index}
+            disabled={showIcon !== 'move' || loading}
+          />
+        ))}
+      </Row>
+    )
+  })
+
+  const SortableListSmall = SortableContainer(({ dayWorkouts }) => {
+    return (
+      <ul className="sortable-list-small">
+        {dayWorkouts.map((value, index) => (
+          <SortableItemSmall
+            key={`item-${index}`}
+            index={index}
+            itemIndex={index}
+            workout={value}
+            disabled={showIcon !== 'move' || loading}
+          />
+        ))}
+      </ul>
+    )
+  })
+  useEffect(() => {
+    const modificateIndexWorkout = async () => {
+      try {
+        setLoading(true)
+        const changeId = workouts.map((item) => {
+          return { workoutID: item._id, index: item.index }
+        })
+        await worksService.postSwitchWorkoutsIndex({ workouts: changeId })
+        setLoading(false)
+      } catch (error) {
+        console.log(error)
+        setLoading(false)
+      }
+    }
+    if (showIcon === 'move') {
+      modificateIndexWorkout()
+    }
+  }, [workouts])
+
+  const sortWorkout = ({ oldIndex, newIndex }) => {
+    const sortArray = arrayMove(workouts, oldIndex, newIndex)
+    const switchIndex = sortArray.map((item, index) => {
+      item.index = index
+      return item
+    })
+    setWorkouts(switchIndex)
+  }
 
   return (
     <Card className={`day-card ${viewStyle}`}>
@@ -74,6 +174,13 @@ export const DayCard = (props) => {
                     Eliminar rutinas
                   </Dropdown.Item>
                 )}
+                {showIcon === 'move' ? (
+                  <Dropdown.Item onClick={() => setShowIcon('')}>Cancelar</Dropdown.Item>
+                ) : (
+                  <Dropdown.Item onClick={() => setShowIcon('move')}>
+                    Cambiar posiciones
+                  </Dropdown.Item>
+                )}
               </>
             ) : (
               <>
@@ -82,6 +189,20 @@ export const DayCard = (props) => {
                 ) : (
                   <Dropdown.Item onClick={() => setShowIcon('time')}>
                     Agregar mis tiempos
+                  </Dropdown.Item>
+                )}
+                {showIcon === 'timeUpdate' ? (
+                  <Dropdown.Item onClick={() => setShowIcon('')}>Cancelar</Dropdown.Item>
+                ) : (
+                  <Dropdown.Item onClick={() => setShowIcon('timeUpdate')}>
+                    Modificar mis tiempos
+                  </Dropdown.Item>
+                )}
+                {showIcon === 'timeDelete' ? (
+                  <Dropdown.Item onClick={() => setShowIcon('')}>Cancelar</Dropdown.Item>
+                ) : (
+                  <Dropdown.Item onClick={() => setShowIcon('timeDelete')}>
+                    Eliminar mis tiempos
                   </Dropdown.Item>
                 )}
                 {showIcon === 'weight' ? (
@@ -95,231 +216,15 @@ export const DayCard = (props) => {
         </Dropdown>
       </Card.Title>
       <Card.Body>
-        <Row>
-          {dayWorkouts && WodTypes && dayWorkouts.workouts.length ? (
-            dayWorkouts.workouts.map((workout, index) =>
-              viewStyle ? (
-                <Col md={6} key={index}>
-                  <Card className="view-card-container">
-                    <Card.Body>
-                      <div className="cat-time-container">
-                        <p className="title">CATEGORIA</p>
-                        <p className="title">TIEMPO</p>
-                      </div>
-                      <div className="cat-time-container">
-                        <p className="category">
-                          {workout.title
-                            ? workout.title
-                            : WodTypes.find((w) => w.id === workout.wodType).description}
-                        </p>
-                        <p className="time"> {workout.workoutTime}'</p>
-                      </div>
-                      <p className="title">DESCRIPCIÓN</p>
-                      <p>{workout.workoutDescription}</p>
-                      {workout.weightLiftingSession && workout.weightLiftingSession.length ? (
-                        <Accordion>
-                          <Card>
-                            <Accordion.Toggle as={Card.Header} eventKey="0">
-                              <p className="category">Weightlifting</p>
-                              <div className="arrow-time-container">
-                                <ArrowChange eventKey="0" />
-                              </div>
-                            </Accordion.Toggle>
-                            <Accordion.Collapse eventKey="0">
-                              <Card.Body>
-                                <Row>
-                                  <Col md={1} />
-                                  <Col md={3}>
-                                    <p>Sets</p>
-                                  </Col>
-                                  <Col md={3}>
-                                    <p>Reps</p>
-                                  </Col>
-                                  <Col md={3}>
-                                    <p>%</p>
-                                  </Col>
-                                  <Col md={1} />
-                                </Row>
-                                {workout.weightLiftingSession.map((weightLifting, index) => (
-                                  <Row key={index}>
-                                    <Col md={1} />
-                                    <Col md={3}>
-                                      <p>{weightLifting.sets}</p>
-                                    </Col>
-                                    <Col md={3}>
-                                      <p>{weightLifting.repetitions}</p>
-                                    </Col>
-                                    <Col md={3}>
-                                      <p>{weightLifting.percentaje}</p>
-                                    </Col>
-                                    <Col md={1} />
-                                  </Row>
-                                ))}
-                              </Card.Body>
-                            </Accordion.Collapse>
-                          </Card>
-                        </Accordion>
-                      ) : null}
-                    </Card.Body>
-
-                    {showIcon === 'edit' ? (
-                      <Card.Footer>
-                        <IconButton
-                          className="icon-button"
-                          title="Actualizar workout"
-                          onClick={() =>
-                            setAddWorkout({
-                              showModal: true,
-                              workoutWeek,
-                              item,
-                              selectedGroup,
-                              workout,
-                              update: true,
-                            })
-                          }
-                        >
-                          <EditIcon />
-                        </IconButton>
-                      </Card.Footer>
-                    ) : null}
-                    {showIcon === 'delete' ? (
-                      <Card.Footer>
-                        <IconButton
-                          className="icon-button"
-                          title="Eliminar workout"
-                          onClick={() =>
-                            setDeleteWorkout({
-                              showModal: true,
-                              workoutWeek,
-                              item,
-                              selectedGroup,
-                              workout,
-                            })
-                          }
-                        >
-                          <DeleteForeverIcon />
-                        </IconButton>
-                      </Card.Footer>
-                    ) : null}
-                    {showIcon === 'time' ? (
-                      <Card.Footer>
-                        <IconButton className="icon-button" title="Agregar mis tiempos">
-                          <TimerIcon />
-                        </IconButton>
-                      </Card.Footer>
-                    ) : null}
-                    {showIcon === 'weight' &&
-                    workout.weightLiftingSession &&
-                    workout.weightLiftingSession.length ? (
-                      <Card.Footer>
-                        <IconButton
-                          className="icon-button"
-                          title="Calcular Peso"
-                          onClick={() =>
-                            setweigthCalculate({
-                              showModal: true,
-                              weightLiftingSession: workout.weightLiftingSession,
-                            })
-                          }
-                        >
-                          <FitnessCenterIcon />
-                        </IconButton>
-                      </Card.Footer>
-                    ) : null}
-                  </Card>
-                </Col>
-              ) : (
-                <Col md={12} key={index}>
-                  <div className="workout-container">
-                    <Accordion>
-                      <Card>
-                        <Accordion.Toggle as={Card.Header} eventKey="0">
-                          <p className="category">
-                            {workout.title
-                              ? workout.title
-                              : WodTypes.find((w) => w.id === workout.wodType).description}
-                          </p>
-                          <div className="arrow-time-container">
-                            <p className="time"> {workout.workoutTime}'</p>
-                            {showIcon === 'edit' ? (
-                              <IconButton
-                                className="icon-button"
-                                title="Actualizar workout"
-                                onClick={() =>
-                                  setAddWorkout({
-                                    showModal: true,
-                                    workoutWeek,
-                                    item,
-                                    workout,
-                                    selectedGroup,
-                                    update: true,
-                                  })
-                                }
-                              >
-                                <EditIcon />
-                              </IconButton>
-                            ) : null}
-                            {showIcon === 'delete' ? (
-                              <IconButton
-                                className="icon-button"
-                                title="Eliminar workout"
-                                onClick={() =>
-                                  setDeleteWorkout({
-                                    showModal: true,
-                                    workoutWeek,
-                                    item,
-                                    workout,
-                                    selectedGroup,
-                                  })
-                                }
-                              >
-                                <DeleteForeverIcon />
-                              </IconButton>
-                            ) : null}
-                            {showIcon === 'time' ? (
-                              <IconButton className="icon-button" title="Agregar mis tiempos">
-                                <TimerIcon />
-                              </IconButton>
-                            ) : null}
-                            {showIcon === 'weight' &&
-                            workout.weightLiftingSession &&
-                            workout.weightLiftingSession.length ? (
-                              <IconButton
-                                className="icon-button"
-                                title="Calcular Peso"
-                                onClick={() =>
-                                  setweigthCalculate({
-                                    showModal: true,
-                                    weightLiftingSession: workout.weightLiftingSession,
-                                  })
-                                }
-                              >
-                                <FitnessCenterIcon />
-                              </IconButton>
-                            ) : null}
-                            <ArrowChange eventKey="0" />
-                          </div>
-                        </Accordion.Toggle>
-                        <Accordion.Collapse eventKey="0">
-                          <Card.Body>
-                            {workout.workoutDescription}{' '}
-                            {workout.wodType === 2 ? (
-                              <Button variant="link" onClick={() => setViewStyle(true)}>
-                                Ver Detalle
-                              </Button>
-                            ) : null}
-                          </Card.Body>
-                        </Accordion.Collapse>
-                      </Card>
-                    </Accordion>
-                  </div>
-                </Col>
-              ),
-            )
+        {workouts && WodTypes && workouts.length ? (
+          viewStyle ? (
+            <SortableListBig dayWorkouts={workouts} onSortEnd={sortWorkout} axis="xy" />
           ) : (
-            <p>No ha cargado rutinas todavia</p>
-          )}
-        </Row>
+            <SortableListSmall dayWorkouts={workouts} lockAxis="y" onSortEnd={sortWorkout} />
+          )
+        ) : (
+          <p>No ha cargado rutinas todavia</p>
+        )}
       </Card.Body>
     </Card>
   )

@@ -16,7 +16,7 @@ import { setDay } from '../../../Redux/actions'
 
 export const CalendarByWeek = (props) => {
   const { setStartDate, setEndDate } = props
-  const days = useSelector((state) => state.days, shallowEqual) || []
+  const { week } = useSelector((state) => state.days, shallowEqual) || []
   const [date, setDate] = useState(new Date())
   const classes = CalendarStyles()
   const dispatch = useDispatch()
@@ -32,12 +32,14 @@ export const CalendarByWeek = (props) => {
       end,
     })
 
-    if (days && days.length) {
-      days.map((item, index) => {
+    if (week && week.length) {
+      const weekComplete = []
+      week.map((item, index) => {
         item.numberDay = getDate(result[index])
         item.dateDay = result[index]
-        dispatch(setDay(item))
+        weekComplete.push(item)
       })
+      dispatch(setDay(weekComplete))
     }
 
     setStartDate(start)

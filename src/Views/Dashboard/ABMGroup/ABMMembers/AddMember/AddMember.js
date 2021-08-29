@@ -33,7 +33,6 @@ export const AddMember = (props) => {
             key: searchValue,
             groupID: selectedGroup.id,
           })
-          console.log(results)
           setSearchMembers(results)
           callback(
             results.map((member) => ({
@@ -49,8 +48,6 @@ export const AddMember = (props) => {
   }
 
   const membersHasChanged = (items) => {
-    console.log(items)
-    console.log('members', members)
     const newItems = items.filter((item) => !members.some((member) => item.value === member.id))
     setNewMembers(newItems)
   }

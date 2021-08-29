@@ -20,13 +20,14 @@ export const WeekGroup = (props) => {
     fetchingWorkout,
     setDeleteWorkout,
     setweigthCalculate,
+    setAddTime,
   } = props
   const [startDate, setStartDate] = useState(null)
   const [endDate, setEndDate] = useState(null)
   const [viewStyle, setViewStyle] = useState(false)
   const [workoutWeek, setWorkoutWeek] = useState([])
   const [selectedDay, setSelectedDay] = useState(0)
-  const { days } = useSelector((state) => state, shallowEqual) || []
+  const { week } = useSelector((state) => state.days, shallowEqual) || []
 
   useEffect(() => {
     const getWeekWorkouts = async () => {
@@ -91,8 +92,8 @@ export const WeekGroup = (props) => {
           </Card>
           {viewStyle ? (
             <div className="scroll-container">
-              {Object.keys(days).length
-                ? Object.values(days).map((item, index) =>
+              {Object.keys(week).length
+                ? Object.values(week).map((item, index) =>
                     selectedDay !== index ? (
                       <Card
                         key={index}
@@ -115,7 +116,7 @@ export const WeekGroup = (props) => {
         {viewStyle ? (
           <Col md={8}>
             <DayCard
-              item={days[selectedDay]}
+              item={week[selectedDay]}
               setAddWorkout={setAddWorkout}
               setDeleteWorkout={setDeleteWorkout}
               setweigthCalculate={setweigthCalculate}
@@ -125,10 +126,11 @@ export const WeekGroup = (props) => {
               viewStyle={viewStyle}
               selectedGroup={selectedGroup}
               setViewStyle={setViewStyle}
+              setAddTime={setAddTime}
             />
           </Col>
-        ) : Object.keys(days).length ? (
-          Object.values(days).map((item, index) => (
+        ) : Object.keys(week).length ? (
+          Object.values(week).map((item, index) => (
             <Col md={4} key={index}>
               <DayCard
                 item={item}
@@ -141,6 +143,7 @@ export const WeekGroup = (props) => {
                 viewStyle={viewStyle}
                 selectedGroup={selectedGroup}
                 setViewStyle={setViewStyle}
+                setAddTime={setAddTime}
               />
             </Col>
           ))

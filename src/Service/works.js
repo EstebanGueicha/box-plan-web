@@ -28,6 +28,33 @@ worksService.createWorkout = (data) => {
     })
 }
 
+worksService.createUserTime = (data) => {
+  return api
+    .post('/createUserTime', data)
+    .then((res) => res.data)
+    .catch((err) => {
+      throw err
+    })
+}
+
+worksService.updateUserTime = (data) => {
+  return api
+    .post('/updateUserTime', data)
+    .then((res) => res.data)
+    .catch((err) => {
+      throw err
+    })
+}
+
+worksService.deleteUserTime = (data) => {
+  return api
+    .delete('/deleteUserTime', data)
+    .then((res) => res.data)
+    .catch((err) => {
+      throw err
+    })
+}
+
 worksService.updateWorkout = (data) => {
   return api
     .post('/updateWorkout', data)
@@ -49,6 +76,15 @@ worksService.deleteWorkout = (id) => {
 worksService.postWeightlifting = (data) => {
   return api
     .post('/createWeightlifting', data)
+    .then((res) => res.data)
+    .catch((err) => {
+      throw err
+    })
+}
+
+worksService.postSwitchWorkoutsIndex = (data) => {
+  return api
+    .post('/switchWorkoutsIndex', data)
     .then((res) => res.data)
     .catch((err) => {
       throw err

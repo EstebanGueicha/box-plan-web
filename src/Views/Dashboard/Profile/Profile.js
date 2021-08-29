@@ -43,7 +43,7 @@ export const Profile = () => {
               <Image src={avatar} className="img-fluid" alt="Imagen de Empresa" />
             ) : (
               <div className="avatar-circle">
-                <span className="initials">{name.toUpperCase().charAt(0)}</span>
+                <span className="initials">{name ? name.toUpperCase().charAt(0) : ''}</span>
               </div>
             )}
             <p className="name-tile">{name}</p>

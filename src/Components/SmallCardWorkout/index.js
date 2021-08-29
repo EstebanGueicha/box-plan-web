@@ -1,0 +1,1 @@
+export { SmallCardWorkout } from './SmallCardWorkout'

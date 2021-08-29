@@ -8,7 +8,6 @@ export const WeigthCalculate = (props) => {
   const handleChangeWeight = (event) => {
     setWeight(event.target.value)
   }
-  console.log(weigthCalculate.weightLiftingSession)
   return (
     <>
       <Modal

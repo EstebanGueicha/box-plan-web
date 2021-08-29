@@ -60,7 +60,6 @@ export const AddWorkout = (props) => {
       }
       if (addWorkout.update) {
         data.workoutID = addWorkout.workout._id
-        console.log(data)
         await worksService.updateWorkout(data)
       } else {
         let dayID
@@ -88,7 +87,6 @@ export const AddWorkout = (props) => {
           dayID = result.id
         }
         data.dayID = dayID
-        console.log(data)
         await worksService.createWorkout(data)
       }
 
@@ -182,7 +180,7 @@ export const AddWorkout = (props) => {
               {errors.category?.type === 'required' && <span>Este Campo es Requerido</span>}
             </Form.Group>
             <Form.Control
-              ref={register({ required: true })}
+              ref={register()}
               type="number"
               placeholder="Tiempo"
               name="workoutTime"
@@ -267,7 +265,7 @@ export const AddWorkout = (props) => {
               </div>
             ) : null}
             <Form.Control
-              ref={register({ required: true })}
+              ref={register()}
               as="textarea"
               rows={5}
               placeholder="Descripción"
