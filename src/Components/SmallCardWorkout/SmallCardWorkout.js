@@ -29,6 +29,7 @@ export const SmallCardWorkout = ({
       return res.word
     }
   }
+  console.log(workout)
   return (
     <div className="workout-container">
       <Accordion>
@@ -152,6 +153,7 @@ export const SmallCardWorkout = ({
           </Accordion.Toggle>
           <Accordion.Collapse eventKey="0">
             <Card.Body>
+              {workout.weightLiftingDescription ? <p>{workout.weightLiftingDescription}</p> : null}
               <span style={{ whiteSpace: 'pre-line' }}>{workout.workoutDescription}</span>
               {workout.wodType === 2 ? (
                 <Button variant="link" onClick={() => setViewStyle(true)}>

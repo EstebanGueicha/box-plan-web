@@ -198,6 +198,13 @@ export const AddWorkout = (props) => {
                     className={`form-input ${(errors.password ? 'active' : 'disable')}`}
                   />
                 </Form.Group> */}
+                <Form.Control
+                  ref={register()}
+                  type="text"
+                  placeholder="Descripción WeightLifting "
+                  name="weightLiftingDescription"
+                  className={`form-input ${errors.weightLiftingDescription ? 'active' : 'disable'}`}
+                />
                 <Row>
                   <Col md={1} />
                   <Col md={3}>

@@ -215,7 +215,17 @@ export const MainDashboard = () => {
           <AllGroups groups={groups} isAdmin={isAdmin} setFetching={setFetching} />
         ) : showComponent === 'profile' ? (
           <Profile />
-        ) : null}
+        ) : (
+          <div className="loadingContainer">
+            <img
+              src="/logo512.png"
+              width="500"
+              height="auto"
+              alt="Logo"
+              className="imagenLogoLoading"
+            />
+          </div>
+        )}
         {addTime.showModal ? (
           <AddTime
             addTime={addTime}

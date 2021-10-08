@@ -43,8 +43,13 @@ export const BigCardWorkout = ({
           </p>
           <p className="time"> {workout.workoutTime}'</p>
         </div>
-        <p className="title">DESCRIPCIÓN</p>
-        <span style={{ whiteSpace: 'pre-line' }}>{workout.workoutDescription}</span>
+        {workout.weightLiftingDescription ? (
+          <>
+            <p className="title">DESCRIPCIÓN Weightlifting</p>
+            <span style={{ whiteSpace: 'pre-line' }}>{workout.weightLiftingDescription}</span>
+          </>
+        ) : null}
+
         {workout.weightLiftingSession && workout.weightLiftingSession.length ? (
           <Accordion>
             <Card>
@@ -89,6 +94,8 @@ export const BigCardWorkout = ({
             </Card>
           </Accordion>
         ) : null}
+        <p className="title">DESCRIPCIÓN</p>
+        <span style={{ whiteSpace: 'pre-line' }}>{workout.workoutDescription}</span>
       </Card.Body>
 
       {showIcon === 'edit' ? (

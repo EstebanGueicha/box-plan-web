@@ -5,6 +5,7 @@ export const WodTypes = [
   { id: 3, description: 'AMRAP' },
   { id: 4, description: 'EMOM' },
   { id: 5, description: 'Tabatha' },
+  { id: 6, description: 'Otro' },
 ]
 
 export const UserTypes = {
